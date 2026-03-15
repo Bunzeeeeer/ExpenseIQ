@@ -28,7 +28,7 @@ mpandroidchart = "v3.1.0"
 navigation = "2.7.7"
 
 # SonarQube
-sonarqube = "4.4.1.3373"
+sonarqube = "7.2.3.7755"
 
 [libraries]
 # Test
