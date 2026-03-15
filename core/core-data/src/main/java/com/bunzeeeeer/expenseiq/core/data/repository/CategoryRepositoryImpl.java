@@ -1,7 +1,7 @@
 package com.bunzeeeeer.expenseiq.core.data.repository;
 
 import com.bunzeeeeer.expenseiq.core.data.dao.CategoryDao;
-import com.bunzeeeeer.expenseiq.core.data.model.Category;
+import com.bunzeeeeer.expenseiq.core.domain.model.Category;
 import com.bunzeeeeer.expenseiq.core.domain.repository.CategoryRepository;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.bunzeeeeer.expenseiq.core.domain.repository;
 
-import com.bunzeeeeer.expenseiq.core.data.model.Expense;
+import com.bunzeeeeer.expenseiq.core.domain.model.Expense;
 
 import java.util.List;
 

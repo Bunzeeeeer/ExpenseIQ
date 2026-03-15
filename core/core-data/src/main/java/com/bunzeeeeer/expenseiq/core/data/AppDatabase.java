@@ -9,9 +9,9 @@ import androidx.room.RoomDatabase;
 import com.bunzeeeeer.expenseiq.core.data.dao.BudgetDao;
 import com.bunzeeeeer.expenseiq.core.data.dao.CategoryDao;
 import com.bunzeeeeer.expenseiq.core.data.dao.ExpenseDao;
-import com.bunzeeeeer.expenseiq.core.data.model.Budget;
-import com.bunzeeeeer.expenseiq.core.data.model.Category;
-import com.bunzeeeeer.expenseiq.core.data.model.Expense;
+import com.bunzeeeeer.expenseiq.core.domain.model.Budget;
+import com.bunzeeeeer.expenseiq.core.domain.model.Category;
+import com.bunzeeeeer.expenseiq.core.domain.model.Expense;
 
 import java.util.concurrent.atomic.AtomicReference;
 

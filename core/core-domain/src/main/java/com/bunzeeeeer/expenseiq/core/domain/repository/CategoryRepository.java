@@ -1,6 +1,6 @@
 package com.bunzeeeeer.expenseiq.core.domain.repository;
 
-import com.bunzeeeeer.expenseiq.core.data.model.Category;
+import com.bunzeeeeer.expenseiq.core.domain.model.Category;
 
 import java.util.List;
 

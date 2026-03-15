@@ -18,9 +18,6 @@ android {
 }
 
 dependencies {
-    // Depends on core-data
-    implementation project(':core:core-data')
-
     // RxJava
     implementation libs.rxjava2
     implementation libs.rxandroid

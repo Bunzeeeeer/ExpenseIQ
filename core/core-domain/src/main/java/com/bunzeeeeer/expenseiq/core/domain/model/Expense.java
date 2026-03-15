@@ -1,4 +1,4 @@
-package com.bunzeeeeer.expenseiq.core.data.model;
+package com.bunzeeeeer.expenseiq.core.domain.model;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey;
 @Entity(
         tableName = "expenses",
         foreignKeys = @ForeignKey(
-                entity = Category.class,
+                entity = com.bunzeeeeer.expenseiq.core.domain.model.Category.class,
                 parentColumns = "id",
                 childColumns = "categoryId",
                 onDelete = ForeignKey.SET_NULL

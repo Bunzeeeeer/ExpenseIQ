@@ -1,7 +1,7 @@
 package com.bunzeeeeer.expenseiq.core.data.repository;
 
 import com.bunzeeeeer.expenseiq.core.data.dao.ExpenseDao;
-import com.bunzeeeeer.expenseiq.core.data.model.Expense;
+import com.bunzeeeeer.expenseiq.core.domain.model.Expense;
 import com.bunzeeeeer.expenseiq.core.domain.repository.ExpenseRepository;
 
 import java.util.List;
