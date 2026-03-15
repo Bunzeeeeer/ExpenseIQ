@@ -18,6 +18,10 @@ android {
 }
 
 dependencies {
+    // Room annotations for models only
+    implementation libs.room.runtime
+    annotationProcessor libs.room.compiler
+
     // RxJava
     implementation libs.rxjava2
     implementation libs.rxandroid
