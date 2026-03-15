@@ -19,8 +19,29 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 
 rootProject.name = "ExpenseIQ"
+
+// App
 include ':app'
+
+// Core modules
+include ':core:core-data'
+include ':core:core-domain'
+include ':core:core-ui'
+
+// Feature modules
+include ':feature:feature-dashboard'
+include ':feature:feature-expense'
+include ':feature:feature-charts'
+include ':feature:feature-budget'
+include ':core:core-data'
+include ':core:core-domain'
+include ':core:core-ui'
+include ':feature:feature-dashboard'
+include ':feature:feature-expense'
+include ':feature:feature-charts'
+include ':feature:feature-budget'

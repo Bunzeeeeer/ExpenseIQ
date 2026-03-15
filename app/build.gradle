@@ -4,11 +4,7 @@ plugins {
 
 android {
     namespace 'com.bunzeeeeer.expenseiq'
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.bunzeeeeer.expenseiq"
@@ -16,7 +12,6 @@ android {
         targetSdk 36
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,6 +21,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -33,10 +29,23 @@ android {
 }
 
 dependencies {
+    // All feature modules
+    implementation project(':feature:feature-dashboard')
+    implementation project(':feature:feature-expense')
+    implementation project(':feature:feature-charts')
+    implementation project(':feature:feature-budget')
+
+    // UI
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
+
+    // Navigation
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+
+    // Testing
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

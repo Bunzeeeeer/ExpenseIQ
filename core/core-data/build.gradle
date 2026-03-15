@@ -1,0 +1,34 @@
+plugins {
+    alias(libs.plugins.android.library)
+}
+
+android {
+    namespace 'com.bunzeeeeer.expenseiq.core.data'
+    compileSdk 36
+
+    defaultConfig {
+        minSdk 26
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    // Room
+    implementation libs.room.runtime
+    implementation libs.room.rxjava2
+    annotationProcessor libs.room.compiler
+
+    // RxJava
+    implementation libs.rxjava2
+    implementation libs.rxandroid
+
+    // Testing
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}
