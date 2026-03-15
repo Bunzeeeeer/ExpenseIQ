@@ -1,4 +1,4 @@
-package com.bunzeeeeer.expenseiq.core.data.model;
+package com.bunzeeeeer.expenseiq.core.domain.model;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
