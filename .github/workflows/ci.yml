@@ -15,6 +15,28 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build project first
+        run: ./gradlew assembleDebug
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -24,6 +46,7 @@ jobs:
           args: >
             -Dsonar.organization=bunzeeeeer
             -Dsonar.projectKey=Bunzeeeeer_ExpenseIQ
+            -Dsonar.java.binaries=**/build/intermediates/javac/**/classes
 
   build:
     name: Build Check
