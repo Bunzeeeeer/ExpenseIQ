@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Base style — required for dot-notation children -->
+    <style name="TextAppearance.ExpenseIQ" parent="TextAppearance.Material3.BodyMedium"/>
+
     <style name="TextAppearance.ExpenseIQ.DisplayLarge">
         <item name="android:textSize">57sp</item>
         <item name="android:fontFamily">sans-serif</item>
@@ -59,4 +63,5 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/primary</item>
     </style>
+
 </resources>
