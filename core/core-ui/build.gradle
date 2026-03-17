@@ -23,6 +23,10 @@ dependencies {
     implementation libs.material
     implementation libs.constraintlayout
 
+    // RxJava (needed for CompositeDisposable in BaseActivity)
+    implementation libs.rxjava2
+    implementation libs.rxandroid
+
     // Testing
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
