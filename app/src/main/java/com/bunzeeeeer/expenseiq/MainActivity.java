@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bunzeeeeer.expenseiq.feature.budget.ui.BudgetListActivity;
+import com.bunzeeeeer.expenseiq.feature.charts.ui.ChartsActivity;
 import com.bunzeeeeer.expenseiq.feature.dashboard.ui.DashboardActivity;
 import com.bunzeeeeer.expenseiq.feature.expense.ui.ExpenseListActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.nav_budget) {
                 navigateToBudget();
                 return true;
+            } else if (id == R.id.nav_charts) {
+                navigateToCharts();
+                return true;
             }
             // Other tabs wired when features are built
             return false;
@@ -54,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void navigateToBudget() {
         Intent intent = new Intent(this, BudgetListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+
+    private void navigateToCharts() {
+        Intent intent = new Intent(this, ChartsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
