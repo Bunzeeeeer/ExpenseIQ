@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen titles -->
+    <string name="budget_list_title">Budgets</string>
+    <string name="budget_add_title">Add Budget</string>
+    <string name="budget_edit_title">Edit Budget</string>
+
+    <!-- Empty state -->
+    <string name="budget_list_empty_icon">💸</string>
+    <string name="budget_list_empty">No budgets yet</string>
+    <string name="budget_list_empty_sub">Tap + to set a budget for a category</string>
+
+    <!-- Labels -->
+    <string name="budget_amount_label">Budget limit</string>
+    <string name="budget_category_label">Category</string>
+    <string name="budget_month_label">Month</string>
+
+    <!-- Hints -->
+    <string name="budget_amount_hint">0.00</string>
+
+    <!-- Autofill hints -->
+    <string name="budget_autofill_amount">Budget amount</string>
+
+    <!-- Formats -->
+    <string name="budget_amount_format">₱%.2f</string>
+    <string name="budget_month_year_format">%1$d/%2$d</string>
+    <string name="budget_month_year_picker_format">MMMM yyyy</string>
+    <string name="budget_category_spinner_item">%1$s  %2$s</string>
+
+    <!-- Unknown fallbacks -->
+    <string name="budget_unknown_category">Unknown</string>
+    <string name="budget_default_icon">🎯</string>
+
+    <!-- FAB -->
+    <string name="budget_fab_description">Add budget</string>
+
+    <!-- Accessibility -->
+    <string name="budget_month_content_description">Select month and year</string>
+
+    <!-- Feedback -->
+    <string name="budget_saved_message">Budget saved!</string>
+
+    <!-- Validation errors -->
+    <string name="budget_error_empty_amount">Please enter an amount</string>
+    <string name="budget_error_invalid_amount">Please enter a valid amount</string>
+    <string name="budget_error_zero_amount">Amount must be greater than zero</string>
+    <string name="budget_error_no_category">Please select a category</string>
+
+    <!-- Delete dialog -->
+    <string name="budget_delete_confirm_title">Delete budget</string>
+    <string name="budget_delete_confirm_message">Are you sure you want to delete this budget?</string>
+    <string name="budget_delete_confirm_yes">Delete</string>
+    <string name="budget_delete_confirm_no">Cancel</string>
+
+    <string name="budget_save_button">Save Budget</string>
+    <string name="budget_delete_button">Delete Budget</string>
+</resources>

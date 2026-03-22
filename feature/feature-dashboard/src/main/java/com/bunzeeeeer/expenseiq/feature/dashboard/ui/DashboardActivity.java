@@ -47,13 +47,16 @@ public class DashboardActivity extends BaseActivity {
 
     private DashboardViewModel viewModel;
 
-    // Fields used across multiple lifecycle methods
     private TextView tvTotalAmount;
     private TextView tvExpenseCount;
     private GridLayout gridCategories;
     private LinearLayout llBreakdownContainer;
     private LinearLayout llBudgetContainer;
     private RecentExpenseAdapter adapter;
+
+    // Cached categories for budget section
+    private List<Category> currentCategories = new ArrayList<>();
+    private double currentTotalBudget = 0.0;
 
     // Pastel palette
     private static final int[] PASTEL_BG = {
@@ -154,13 +157,16 @@ public class DashboardActivity extends BaseActivity {
     // ─── Observers ───────────────────────────────────────────────────────────
 
     private void initTotalObserver() {
-        viewModel.getTotalThisMonth().observe(this, total ->
-                tvTotalAmount.setText(getString(R.string.dashboard_amount_format, total))
-        );
+        viewModel.getTotalThisMonth().observe(this, total -> {
+            tvTotalAmount.setText(
+                    getString(R.string.dashboard_amount_format, total));
+            updateBudgetLeft();
+        });
     }
 
     private void initDashboardDataObserver() {
         viewModel.getDashboardData().observe(this, data -> {
+            currentCategories = data.getCategories();
             adapter.setExpenses(data.getExpenses());
             tvExpenseCount.setText(String.valueOf(data.getExpenses().size()));
             updateCategoryGrid(data.getCategories());
@@ -170,7 +176,14 @@ public class DashboardActivity extends BaseActivity {
     }
 
     private void initBudgetsObserver() {
-        viewModel.getBudgets().observe(this, this::updateBudgetSection);
+        viewModel.getBudgets().observe(this, budgets -> {
+            currentTotalBudget = 0.0;
+            for (Budget budget : budgets) {
+                currentTotalBudget += budget.getLimitAmount();
+            }
+            updateBudgetLeft();
+            updateBudgetSection(budgets, currentCategories);
+        });
     }
 
     private void initErrorObserver() {
@@ -319,7 +332,6 @@ public class DashboardActivity extends BaseActivity {
             return;
         }
 
-        // Build category name lookup map
         Map<Long, String> categoryNames = new HashMap<>();
         for (Category cat : categories) {
             categoryNames.put(cat.getId(), cat.getName());
@@ -349,7 +361,6 @@ public class DashboardActivity extends BaseActivity {
             rowParams.bottomMargin = spacingSm;
             row.setLayoutParams(rowParams);
 
-            // Use actual category name instead of ID
             String catName = categoryNames.containsKey(entry.getKey())
                     ? categoryNames.get(entry.getKey())
                     : getString(R.string.dashboard_category_label, entry.getKey());
@@ -410,7 +421,7 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
-    private void updateBudgetSection(List<Budget> budgets) {
+    private void updateBudgetSection(List<Budget> budgets, List<Category> categories) {
         llBudgetContainer.removeAllViews();
 
         if (budgets.isEmpty()) {
@@ -420,6 +431,11 @@ public class DashboardActivity extends BaseActivity {
             empty.setTextSize(13);
             llBudgetContainer.addView(empty);
             return;
+        }
+
+        Map<Long, Category> categoryMap = new HashMap<>();
+        for (Category cat : categories) {
+            categoryMap.put(cat.getId(), cat);
         }
 
         int spacingMd = (int) getResources().getDimension(
@@ -439,7 +455,8 @@ public class DashboardActivity extends BaseActivity {
             rowParams.bottomMargin = idx < budgets.size() - 1 ? spacingMd : 0;
             row.setLayoutParams(rowParams);
 
-            LinearLayout labelRow = buildBudgetLabelRow(budget, spacingXs, idx);
+            LinearLayout labelRow = buildBudgetLabelRow(
+                    budget, spacingXs, idx, categoryMap);
             LinearLayout track = buildBudgetTrack(barColor);
 
             row.addView(labelRow);
@@ -449,7 +466,8 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
-    private LinearLayout buildBudgetLabelRow(Budget budget, int spacingXs, int idx) {
+    private LinearLayout buildBudgetLabelRow(Budget budget, int spacingXs,
+                                             int idx, Map<Long, Category> categoryMap) {
         LinearLayout labelRow = new LinearLayout(this);
         labelRow.setOrientation(LinearLayout.HORIZONTAL);
         labelRow.setGravity(Gravity.CENTER_VERTICAL);
@@ -459,11 +477,18 @@ public class DashboardActivity extends BaseActivity {
         lrParams.bottomMargin = spacingXs;
         labelRow.setLayoutParams(lrParams);
 
+        Category cat = budget.getCategoryId() != null
+                ? categoryMap.get(budget.getCategoryId())
+                : null;
+        String emoji = cat != null
+                ? cat.getIcon()
+                : CATEGORY_EMOJIS[idx % CATEGORY_EMOJIS.length];
+        String name = cat != null
+                ? cat.getName()
+                : getString(R.string.dashboard_category_label, budget.getCategoryId());
+
         TextView tvName = new TextView(this);
-        tvName.setText(getString(
-                R.string.dashboard_budget_name_format,
-                CATEGORY_EMOJIS[idx % CATEGORY_EMOJIS.length],
-                budget.getCategoryId()));
+        tvName.setText(getString(R.string.dashboard_budget_name_format, emoji, name));
         tvName.setTextSize(13);
         tvName.setTextColor(0xFF1C1B1F);
         LinearLayout.LayoutParams nameParams = new LinearLayout.LayoutParams(
@@ -509,5 +534,13 @@ public class DashboardActivity extends BaseActivity {
         fill.setLayoutParams(fillParams);
         fill.setBackground(fillBg);
         return fill;
+    }
+
+    private void updateBudgetLeft() {
+        TextView tvBudgetLeft = findViewById(R.id.tvBudgetLeft);
+        Double total = viewModel.getTotalThisMonth().getValue();
+        double spent = total != null ? total : 0.0;
+        double left = currentTotalBudget - spent;
+        tvBudgetLeft.setText(getString(R.string.dashboard_amount_format, left));
     }
 }

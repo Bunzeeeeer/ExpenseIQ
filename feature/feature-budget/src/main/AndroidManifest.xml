@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <application
+        android:allowBackup="false"
+        android:usesCleartextTraffic="false">
+
+        <activity
+            android:name=".ui.BudgetListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ExpenseIQ" />
+
+        <activity
+            android:name=".ui.AddEditBudgetActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ExpenseIQ"
+            android:windowSoftInputMode="adjustResize" />
+
+    </application>
+
 </manifest>
