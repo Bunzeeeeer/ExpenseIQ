@@ -5,7 +5,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-
 /**
  *
  * @Author: Lance Joshua Corcega
@@ -31,9 +30,9 @@ public class Expense {
     private double amount;
     private long date;
     private String note;
-    private long categoryId;
+    private Long categoryId;
 
-    public Expense(String title, double amount, long date, String note, long categoryId) {
+    public Expense(String title, double amount, long date, String note, Long categoryId) {
         this.title = title;
         this.amount = amount;
         this.date = date;
@@ -81,11 +80,11 @@ public class Expense {
         this.note = note;
     }
 
-    public long getCategoryId() {
+    public Long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(long categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 }

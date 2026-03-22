@@ -7,6 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import io.reactivex.disposables.CompositeDisposable;
 
+/**
+ *
+ * @Author: Lance Joshua Corcega
+ * @Date: 03-15-2026
+ *
+ */
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected final CompositeDisposable disposables = new CompositeDisposable();

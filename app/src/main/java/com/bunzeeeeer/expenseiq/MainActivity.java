@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bunzeeeeer.expenseiq.feature.dashboard.ui.DashboardActivity;
+import com.bunzeeeeer.expenseiq.feature.expense.ui.ExpenseListActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,10 +31,28 @@ public class MainActivity extends AppCompatActivity {
             // Other tabs wired when features are built
             return false;
         });
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_dashboard) {
+                navigateToDashboard();
+                return true;
+            } else if (id == R.id.nav_expenses) {
+                navigateToExpenses();
+                return true;
+            }
+            return false;
+        });
     }
 
     private void navigateToDashboard() {
         Intent intent = new Intent(this, DashboardActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+
+    private void navigateToExpenses() {
+        Intent intent = new Intent(this, ExpenseListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }

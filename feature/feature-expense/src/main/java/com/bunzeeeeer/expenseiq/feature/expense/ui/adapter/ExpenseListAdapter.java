@@ -1,4 +1,4 @@
-package com.bunzeeeeer.expenseiq.feature.dashboard.ui.adapter;
+package com.bunzeeeeer.expenseiq.feature.expense.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bunzeeeeer.expenseiq.core.domain.model.Expense;
-import com.bunzeeeeer.expenseiq.feature.dashboard.R;
+import com.bunzeeeeer.expenseiq.feature.expense.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,16 +23,18 @@ import java.util.Locale;
  * @Date: 03-15-2026
  *
  */
-public class RecentExpenseAdapter extends RecyclerView.Adapter<RecentExpenseAdapter.ViewHolder> {
+public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.ViewHolder> {
 
-    private static final int MAX_RECENT = 5;
+    public interface OnExpenseClickListener {
+        void onExpenseClick(Expense expense);
+    }
+
     private List<Expense> expenses = new ArrayList<>();
+    private OnExpenseClickListener listener;
 
     public void setExpenses(List<Expense> newExpenses) {
         int oldSize = this.expenses.size();
-        this.expenses = newExpenses.size() > MAX_RECENT
-                ? newExpenses.subList(0, MAX_RECENT)
-                : newExpenses;
+        this.expenses = newExpenses;
         int newSize = this.expenses.size();
         if (oldSize == newSize) {
             notifyItemRangeChanged(0, newSize);
@@ -45,11 +47,15 @@ public class RecentExpenseAdapter extends RecyclerView.Adapter<RecentExpenseAdap
         }
     }
 
+    public void setOnExpenseClickListener(OnExpenseClickListener listener) {
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_recent_expense, parent, false);
+                .inflate(R.layout.item_expense_list, parent, false);
         return new ViewHolder(view);
     }
 
@@ -58,11 +64,16 @@ public class RecentExpenseAdapter extends RecyclerView.Adapter<RecentExpenseAdap
         Expense expense = expenses.get(position);
         holder.tvTitle.setText(expense.getTitle());
         holder.tvAmount.setText(holder.itemView.getContext()
-                .getString(R.string.dashboard_amount_negative_format, expense.getAmount()));
+                .getString(R.string.expense_amount_negative_format, expense.getAmount()));
         SimpleDateFormat sdf = new SimpleDateFormat(
-                holder.itemView.getContext().getString(R.string.dashboard_date_short_format),
+                holder.itemView.getContext().getString(R.string.expense_date_format),
                 Locale.getDefault());
         holder.tvDate.setText(sdf.format(new Date(expense.getDate())));
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onExpenseClick(expense);
+            }
+        });
     }
 
     @Override

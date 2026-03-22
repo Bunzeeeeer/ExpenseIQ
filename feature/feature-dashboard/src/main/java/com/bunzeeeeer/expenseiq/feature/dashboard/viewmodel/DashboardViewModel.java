@@ -5,24 +5,29 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.bunzeeeeer.expenseiq.core.domain.model.Budget;
-import com.bunzeeeeer.expenseiq.core.domain.model.Category;
-import com.bunzeeeeer.expenseiq.core.domain.model.Expense;
+import com.bunzeeeeer.expenseiq.feature.dashboard.data.DashboardData;
 import com.bunzeeeeer.expenseiq.feature.dashboard.data.DashboardRepository;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ *
+ * @Author: Lance Joshua Corcega, Claude AI
+ * @Date: 03-15-2026
+ *
+ */
 public class DashboardViewModel extends ViewModel {
 
     private final DashboardRepository repository;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     private final MutableLiveData<Double> totalThisMonth = new MutableLiveData<>(0.0);
-    private final MutableLiveData<List<Expense>> recentExpenses = new MutableLiveData<>();
-    private final MutableLiveData<List<Category>> categories = new MutableLiveData<>();
+    private final MutableLiveData<DashboardData> dashboardData = new MutableLiveData<>();
     private final MutableLiveData<List<Budget>> budgets = new MutableLiveData<>();
     private final MutableLiveData<String> error = new MutableLiveData<>();
 
@@ -35,8 +40,7 @@ public class DashboardViewModel extends ViewModel {
 
     private void loadDashboardData() {
         loadTotalThisMonth();
-        loadRecentExpenses();
-        loadCategories();
+        loadExpensesAndCategories();
         loadBudgets();
     }
 
@@ -53,25 +57,17 @@ public class DashboardViewModel extends ViewModel {
         );
     }
 
-    private void loadRecentExpenses() {
+    private void loadExpensesAndCategories() {
         disposables.add(
-                repository.getRecentExpenses()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                recentExpenses::setValue,
-                                e -> error.setValue(e.getMessage())
+                Flowable.combineLatest(
+                                repository.getRecentExpenses(),
+                                repository.getAllCategories(),
+                                DashboardData::new
                         )
-        );
-    }
-
-    private void loadCategories() {
-        disposables.add(
-                repository.getAllCategories()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                categories::setValue,
+                                dashboardData::setValue,
                                 e -> error.setValue(e.getMessage())
                         )
         );
@@ -92,8 +88,7 @@ public class DashboardViewModel extends ViewModel {
     // ─── Exposed LiveData ─────────────────────────────────────────────────────
 
     public LiveData<Double> getTotalThisMonth() { return totalThisMonth; }
-    public LiveData<List<Expense>> getRecentExpenses() { return recentExpenses; }
-    public LiveData<List<Category>> getCategories() { return categories; }
+    public LiveData<DashboardData> getDashboardData() { return dashboardData; }
     public LiveData<List<Budget>> getBudgets() { return budgets; }
     public LiveData<String> getError() { return error; }
 

@@ -26,12 +26,12 @@ public class Budget {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    private long categoryId;
+    private Long categoryId;
     private double limitAmount;
     private int month;
     private int year;
 
-    public Budget(long categoryId, double limitAmount, int month, int year) {
+    public Budget(Long categoryId, double limitAmount, int month, int year) {
         this.categoryId = categoryId;
         this.limitAmount = limitAmount;
         this.month = month;
@@ -46,11 +46,11 @@ public class Budget {
         this.id = id;
     }
 
-    public long getCategoryId() {
+    public Long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(long categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 

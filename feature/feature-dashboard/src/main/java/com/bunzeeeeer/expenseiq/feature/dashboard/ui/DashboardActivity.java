@@ -36,6 +36,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ *
+ * @Author: Lance Joshua Corcega, Claude AI
+ * @Date: 03-15-2026
+ *
+ */
 @SuppressWarnings("java:S1450")
 public class DashboardActivity extends BaseActivity {
 
@@ -88,8 +94,7 @@ public class DashboardActivity extends BaseActivity {
     @Override
     protected void initObservers() {
         initTotalObserver();
-        initExpensesObserver();
-        initCategoriesObserver();
+        initDashboardDataObserver();
         initBudgetsObserver();
         initErrorObserver();
     }
@@ -154,16 +159,14 @@ public class DashboardActivity extends BaseActivity {
         );
     }
 
-    private void initExpensesObserver() {
-        viewModel.getRecentExpenses().observe(this, expenses -> {
-            adapter.setExpenses(expenses);
-            tvExpenseCount.setText(String.valueOf(expenses.size()));
-            updateBreakdown(expenses);
+    private void initDashboardDataObserver() {
+        viewModel.getDashboardData().observe(this, data -> {
+            adapter.setExpenses(data.getExpenses());
+            tvExpenseCount.setText(String.valueOf(data.getExpenses().size()));
+            updateCategoryGrid(data.getCategories());
+            updateBreakdown(data.getExpenses(), data.getCategories());
+            updateCategoryAmounts(data.getExpenses());
         });
-    }
-
-    private void initCategoriesObserver() {
-        viewModel.getCategories().observe(this, this::updateCategoryGrid);
     }
 
     private void initBudgetsObserver() {
@@ -183,7 +186,10 @@ public class DashboardActivity extends BaseActivity {
     private void updateCategoryGrid(List<Category> categories) {
         gridCategories.removeAllViews();
 
-        int count = Math.min(categories.size(), 4);
+        int count = categories.size();
+        gridCategories.setColumnCount(2);
+        gridCategories.setRowCount((int) Math.ceil(count / 2.0));
+
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         int padding = (int) getResources().getDimension(
                 com.bunzeeeeer.expenseiq.core.ui.R.dimen.spacing_md) * 2;
@@ -254,7 +260,34 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
-    private void updateBreakdown(List<Expense> expenses) {
+    private void updateCategoryAmounts(List<Expense> expenses) {
+        Calendar cal = Calendar.getInstance();
+        int currentMonth = cal.get(Calendar.MONTH);
+        int currentYear = cal.get(Calendar.YEAR);
+
+        Map<Long, Double> catTotals = new HashMap<>();
+        for (Expense e : expenses) {
+            Calendar expCal = Calendar.getInstance();
+            expCal.setTimeInMillis(e.getDate());
+            if (expCal.get(Calendar.MONTH) == currentMonth
+                    && expCal.get(Calendar.YEAR) == currentYear) {
+                Long catId = e.getCategoryId();
+                if (catId != null) {
+                    catTotals.merge(catId, e.getAmount(), Double::sum);
+                }
+            }
+        }
+
+        for (Map.Entry<Long, Double> entry : catTotals.entrySet()) {
+            String tag = getString(R.string.dashboard_category_amount_tag, entry.getKey());
+            TextView tvAmount = gridCategories.findViewWithTag(tag);
+            if (tvAmount != null) {
+                tvAmount.setText(getString(R.string.dashboard_amount_format, entry.getValue()));
+            }
+        }
+    }
+
+    private void updateBreakdown(List<Expense> expenses, List<Category> categories) {
         llBreakdownContainer.removeAllViews();
 
         Calendar cal = Calendar.getInstance();
@@ -269,8 +302,11 @@ public class DashboardActivity extends BaseActivity {
             expCal.setTimeInMillis(e.getDate());
             if (expCal.get(Calendar.MONTH) == currentMonth
                     && expCal.get(Calendar.YEAR) == currentYear) {
-                catTotals.merge(e.getCategoryId(), (float) e.getAmount(), Float::sum);
-                grandTotal += (float) e.getAmount();
+                Long catId = e.getCategoryId();
+                if (catId != null) {
+                    catTotals.merge(catId, (float) e.getAmount(), Float::sum);
+                    grandTotal += (float) e.getAmount();
+                }
             }
         }
 
@@ -281,6 +317,12 @@ public class DashboardActivity extends BaseActivity {
             empty.setTextSize(13);
             llBreakdownContainer.addView(empty);
             return;
+        }
+
+        // Build category name lookup map
+        Map<Long, String> categoryNames = new HashMap<>();
+        for (Category cat : categories) {
+            categoryNames.put(cat.getId(), cat.getName());
         }
 
         int spacingSm = (int) getResources().getDimension(
@@ -307,8 +349,13 @@ public class DashboardActivity extends BaseActivity {
             rowParams.bottomMargin = spacingSm;
             row.setLayoutParams(rowParams);
 
+            // Use actual category name instead of ID
+            String catName = categoryNames.containsKey(entry.getKey())
+                    ? categoryNames.get(entry.getKey())
+                    : getString(R.string.dashboard_category_label, entry.getKey());
+
             TextView tvLabel = new TextView(this);
-            tvLabel.setText(getString(R.string.dashboard_category_label, entry.getKey()));
+            tvLabel.setText(catName);
             tvLabel.setTextSize(12);
             tvLabel.setTextColor(0xFF6B6575);
             LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(

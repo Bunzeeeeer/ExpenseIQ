@@ -6,6 +6,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bunzeeeeer.expenseiq.feature.dashboard.data.DashboardRepository;
 
+/**
+ *
+ * @Author: Lance Joshua Corcega
+ * @Date: 03-15-2026
+ *
+ */
 public class DashboardViewModelFactory implements ViewModelProvider.Factory {
 
     private final DashboardRepository repository;

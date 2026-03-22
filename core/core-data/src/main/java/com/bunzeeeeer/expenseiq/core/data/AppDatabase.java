@@ -2,9 +2,11 @@ package com.bunzeeeeer.expenseiq.core.data;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.bunzeeeeer.expenseiq.core.data.dao.BudgetDao;
 import com.bunzeeeeer.expenseiq.core.data.dao.CategoryDao;
@@ -35,6 +37,23 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CategoryDao categoryDao();
     public abstract BudgetDao budgetDao();
 
+    // ─── Seed Data ────────────────────────────────────────────────────────────
+
+    private static final RoomDatabase.Callback DATABASE_CALLBACK = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            db.execSQL("INSERT INTO categories (name, colorHex, icon) VALUES ('Food', '#FF6B6B', '🍜')");
+            db.execSQL("INSERT INTO categories (name, colorHex, icon) VALUES ('Transport', '#4ECDC4', '🚌')");
+            db.execSQL("INSERT INTO categories (name, colorHex, icon) VALUES ('Shopping', '#FFEAA7', '🛍️')");
+            db.execSQL("INSERT INTO categories (name, colorHex, icon) VALUES ('Health', '#DDA0DD', '💊')");
+            db.execSQL("INSERT INTO categories (name, colorHex, icon) VALUES ('Bills', '#45B7D1', '💡')");
+            db.execSQL("INSERT INTO categories (name, colorHex, icon) VALUES ('Others', '#B0B0B0', '🎯')");
+        }
+    };
+
+    // ─── Singleton ────────────────────────────────────────────────────────────
+
     public static AppDatabase getInstance(Context context) {
         AppDatabase current = INSTANCE.get();
         if (current != null) {
@@ -44,10 +63,12 @@ public abstract class AppDatabase extends RoomDatabase {
             current = INSTANCE.get();
             if (current == null) {
                 current = Room.databaseBuilder(
-                        context.getApplicationContext(),
-                        AppDatabase.class,
-                        DATABASE_NAME
-                ).build();
+                                context.getApplicationContext(),
+                                AppDatabase.class,
+                                DATABASE_NAME
+                        )
+                        .addCallback(DATABASE_CALLBACK)
+                        .build();
                 INSTANCE.set(current);
             }
             return current;
