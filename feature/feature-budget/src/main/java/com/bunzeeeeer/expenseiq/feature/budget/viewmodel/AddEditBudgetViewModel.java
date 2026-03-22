@@ -1,16 +1,15 @@
-package com.bunzeeeeer.expenseiq.feature.dashboard.viewmodel;
+package com.bunzeeeeer.expenseiq.feature.budget.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.bunzeeeeer.expenseiq.core.domain.model.Budget;
-import com.bunzeeeeer.expenseiq.feature.dashboard.data.DashboardData;
-import com.bunzeeeeer.expenseiq.feature.dashboard.data.DashboardRepository;
+import com.bunzeeeeer.expenseiq.core.domain.model.Category;
+import com.bunzeeeeer.expenseiq.feature.budget.data.BudgetFeatureRepository;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -18,68 +17,79 @@ import io.reactivex.schedulers.Schedulers;
 /**
  *
  * @Author: Lance Joshua Corcega, Claude AI
- * @Date: 03-15-2026
+ * @Date: 03-22-2026
  *
  */
-public class DashboardViewModel extends ViewModel {
+public class AddEditBudgetViewModel extends ViewModel {
 
-    private final DashboardRepository repository;
+    private final BudgetFeatureRepository repository;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    private final MutableLiveData<Double> totalThisMonth = new MutableLiveData<>(0.0);
-    private final MutableLiveData<DashboardData> dashboardData = new MutableLiveData<>();
-    private final MutableLiveData<List<Budget>> budgets = new MutableLiveData<>();
+    private final MutableLiveData<List<Category>> categories = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> saveSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> deleteSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> error = new MutableLiveData<>();
 
-    public DashboardViewModel(DashboardRepository repository) {
+    public AddEditBudgetViewModel(BudgetFeatureRepository repository) {
         this.repository = repository;
-        loadDashboardData();
+        loadCategories();
     }
 
     // ─── Data Loading ─────────────────────────────────────────────────────────
 
-    private void loadDashboardData() {
-        loadTotalThisMonth();
-        loadExpensesAndCategories();
-        loadBudgets();
-    }
-
-    private void loadTotalThisMonth() {
+    private void loadCategories() {
         disposables.add(
-                repository.getTotalExpensesThisMonth()
+                repository.getAllCategories()
                         .subscribeOn(Schedulers.io())
-                        .onErrorReturnItem(0.0)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                total -> totalThisMonth.setValue(total != null ? total : 0.0),
+                                categories::setValue,
                                 e -> error.setValue(e.getMessage())
                         )
         );
     }
 
-    private void loadExpensesAndCategories() {
+    // ─── Actions ──────────────────────────────────────────────────────────────
+
+    public void saveBudget(Budget budget) {
+        if (budget.getId() == 0) {
+            addBudget(budget);
+        } else {
+            updateBudget(budget);
+        }
+    }
+
+    private void addBudget(Budget budget) {
         disposables.add(
-                Flowable.combineLatest(
-                                repository.getRecentExpenses(),
-                                repository.getAllCategories(),
-                                DashboardData::new
-                        )
+                repository.addBudget(budget)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                dashboardData::setValue,
+                                () -> saveSuccess.setValue(true),
                                 e -> error.setValue(e.getMessage())
                         )
         );
     }
 
-    private void loadBudgets() {
+    private void updateBudget(Budget budget) {
         disposables.add(
-                repository.getBudgetsThisMonth()
+                repository.updateBudget(budget)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                budgets::setValue,
+                                () -> saveSuccess.setValue(true),
+                                e -> error.setValue(e.getMessage())
+                        )
+        );
+    }
+
+    public void deleteBudget(Budget budget) {
+        disposables.add(
+                repository.deleteBudget(budget)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                () -> deleteSuccess.setValue(true),
                                 e -> error.setValue(e.getMessage())
                         )
         );
@@ -87,9 +97,9 @@ public class DashboardViewModel extends ViewModel {
 
     // ─── Exposed LiveData ─────────────────────────────────────────────────────
 
-    public LiveData<Double> getTotalThisMonth() { return totalThisMonth; }
-    public LiveData<DashboardData> getDashboardData() { return dashboardData; }
-    public LiveData<List<Budget>> getBudgets() { return budgets; }
+    public LiveData<List<Category>> getCategories() { return categories; }
+    public LiveData<Boolean> getSaveSuccess() { return saveSuccess; }
+    public LiveData<Boolean> getDeleteSuccess() { return deleteSuccess; }
     public LiveData<String> getError() { return error; }
 
     // ─── Cleanup ──────────────────────────────────────────────────────────────

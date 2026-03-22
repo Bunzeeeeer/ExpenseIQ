@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Expense list -->
+    <string name="expense_list_title">My expenses</string>
+    <string name="expense_list_empty">No expenses yet!</string>
+    <string name="expense_list_empty_sub">Tap the + button to add one 🌸</string>
+    <string name="expense_fab_description">Add expense</string>
+    <string name="expense_saved_message">Expense saved successfully! 🌸</string>
+    <string name="expense_list_empty_icon">🧾</string>
+
+    <!-- Add/Edit labels -->
+    <string name="expense_add_title">Add expense</string>
+    <string name="expense_edit_title">Edit expense</string>
+    <string name="expense_amount_label">Amount</string>
+    <string name="expense_amount_hint">0.00</string>
+    <string name="expense_title_label">Title</string>
+    <string name="expense_title_hint">e.g. Lunch at Jollibee</string>
+    <string name="expense_category_label">Category</string>
+    <string name="expense_date_label">Date</string>
+    <string name="expense_note_label">Note</string>
+    <string name="expense_note_hint">Optional note…</string>
+
+    <!-- Buttons -->
+    <string name="expense_save_button">Save expense</string>
+    <string name="expense_delete_button">Delete expense</string>
+
+    <!-- Formats -->
+    <string name="expense_amount_negative_format">-₱%.2f</string>
+    <string name="expense_date_format">MMM dd, yyyy</string>
+
+    <!-- Validation -->
+    <string name="expense_error_empty_title">Please enter a title</string>
+    <string name="expense_error_empty_amount">Please enter an amount</string>
+    <string name="expense_error_invalid_amount">Please enter a valid amount</string>
+    <string name="expense_error_no_category">Please select a category</string>
+
+    <!-- Delete confirmation -->
+    <string name="expense_delete_confirm_title">Delete expense?</string>
+    <string name="expense_delete_confirm_message">This action cannot be undone.</string>
+    <string name="expense_delete_confirm_yes">Delete</string>
+    <string name="expense_delete_confirm_no">Cancel</string>
+
+    <!-- Autofill hints -->
+    <string name="expense_autofill_amount" translatable="false">amount</string>
+    <string name="expense_autofill_title" translatable="false">name</string>
+    <string name="expense_autofill_note" translatable="false">note</string>
+
+    <!-- Accessibility -->
+    <string name="expense_date_content_description">Select expense date</string>
+</resources>

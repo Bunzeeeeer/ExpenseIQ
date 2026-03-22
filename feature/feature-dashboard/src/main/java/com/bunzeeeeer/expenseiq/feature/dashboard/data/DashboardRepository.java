@@ -13,6 +13,12 @@ import java.util.List;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
+/**
+ *
+ * @Author: Lance Joshua Corcega
+ * @Date: 03-15-2026
+ *
+ */
 public class DashboardRepository {
 
     private final ExpenseRepository expenseRepository;

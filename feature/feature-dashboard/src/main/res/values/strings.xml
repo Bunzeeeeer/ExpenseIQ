@@ -30,7 +30,7 @@
     <string name="dashboard_budget_limit">₱%.2f limit</string>
     <string name="dashboard_category_label">Category #%d</string>
     <string name="dashboard_category_amount_tag">cat_amount_%d</string>
-    <string name="dashboard_budget_name_format">%1$s  Category #%2$d</string>
+    <string name="dashboard_budget_name_format">%1$s  %2$s</string>
 
     <!-- Amount formats -->
     <string name="dashboard_amount_format">₱%.2f</string>

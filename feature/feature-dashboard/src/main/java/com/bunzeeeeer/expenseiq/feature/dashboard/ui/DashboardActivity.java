@@ -36,18 +36,27 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ *
+ * @Author: Lance Joshua Corcega, Claude AI
+ * @Date: 03-15-2026
+ *
+ */
 @SuppressWarnings("java:S1450")
 public class DashboardActivity extends BaseActivity {
 
     private DashboardViewModel viewModel;
 
-    // Fields used across multiple lifecycle methods
     private TextView tvTotalAmount;
     private TextView tvExpenseCount;
     private GridLayout gridCategories;
     private LinearLayout llBreakdownContainer;
     private LinearLayout llBudgetContainer;
     private RecentExpenseAdapter adapter;
+
+    // Cached categories for budget section
+    private List<Category> currentCategories = new ArrayList<>();
+    private double currentTotalBudget = 0.0;
 
     // Pastel palette
     private static final int[] PASTEL_BG = {
@@ -88,8 +97,7 @@ public class DashboardActivity extends BaseActivity {
     @Override
     protected void initObservers() {
         initTotalObserver();
-        initExpensesObserver();
-        initCategoriesObserver();
+        initDashboardDataObserver();
         initBudgetsObserver();
         initErrorObserver();
     }
@@ -149,25 +157,33 @@ public class DashboardActivity extends BaseActivity {
     // ─── Observers ───────────────────────────────────────────────────────────
 
     private void initTotalObserver() {
-        viewModel.getTotalThisMonth().observe(this, total ->
-                tvTotalAmount.setText(getString(R.string.dashboard_amount_format, total))
-        );
-    }
-
-    private void initExpensesObserver() {
-        viewModel.getRecentExpenses().observe(this, expenses -> {
-            adapter.setExpenses(expenses);
-            tvExpenseCount.setText(String.valueOf(expenses.size()));
-            updateBreakdown(expenses);
+        viewModel.getTotalThisMonth().observe(this, total -> {
+            tvTotalAmount.setText(
+                    getString(R.string.dashboard_amount_format, total));
+            updateBudgetLeft();
         });
     }
 
-    private void initCategoriesObserver() {
-        viewModel.getCategories().observe(this, this::updateCategoryGrid);
+    private void initDashboardDataObserver() {
+        viewModel.getDashboardData().observe(this, data -> {
+            currentCategories = data.getCategories();
+            adapter.setExpenses(data.getExpenses());
+            tvExpenseCount.setText(String.valueOf(data.getExpenses().size()));
+            updateCategoryGrid(data.getCategories());
+            updateBreakdown(data.getExpenses(), data.getCategories());
+            updateCategoryAmounts(data.getExpenses());
+        });
     }
 
     private void initBudgetsObserver() {
-        viewModel.getBudgets().observe(this, this::updateBudgetSection);
+        viewModel.getBudgets().observe(this, budgets -> {
+            currentTotalBudget = 0.0;
+            for (Budget budget : budgets) {
+                currentTotalBudget += budget.getLimitAmount();
+            }
+            updateBudgetLeft();
+            updateBudgetSection(budgets, currentCategories);
+        });
     }
 
     private void initErrorObserver() {
@@ -183,7 +199,10 @@ public class DashboardActivity extends BaseActivity {
     private void updateCategoryGrid(List<Category> categories) {
         gridCategories.removeAllViews();
 
-        int count = Math.min(categories.size(), 4);
+        int count = categories.size();
+        gridCategories.setColumnCount(2);
+        gridCategories.setRowCount((int) Math.ceil(count / 2.0));
+
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         int padding = (int) getResources().getDimension(
                 com.bunzeeeeer.expenseiq.core.ui.R.dimen.spacing_md) * 2;
@@ -254,7 +273,34 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
-    private void updateBreakdown(List<Expense> expenses) {
+    private void updateCategoryAmounts(List<Expense> expenses) {
+        Calendar cal = Calendar.getInstance();
+        int currentMonth = cal.get(Calendar.MONTH);
+        int currentYear = cal.get(Calendar.YEAR);
+
+        Map<Long, Double> catTotals = new HashMap<>();
+        for (Expense e : expenses) {
+            Calendar expCal = Calendar.getInstance();
+            expCal.setTimeInMillis(e.getDate());
+            if (expCal.get(Calendar.MONTH) == currentMonth
+                    && expCal.get(Calendar.YEAR) == currentYear) {
+                Long catId = e.getCategoryId();
+                if (catId != null) {
+                    catTotals.merge(catId, e.getAmount(), Double::sum);
+                }
+            }
+        }
+
+        for (Map.Entry<Long, Double> entry : catTotals.entrySet()) {
+            String tag = getString(R.string.dashboard_category_amount_tag, entry.getKey());
+            TextView tvAmount = gridCategories.findViewWithTag(tag);
+            if (tvAmount != null) {
+                tvAmount.setText(getString(R.string.dashboard_amount_format, entry.getValue()));
+            }
+        }
+    }
+
+    private void updateBreakdown(List<Expense> expenses, List<Category> categories) {
         llBreakdownContainer.removeAllViews();
 
         Calendar cal = Calendar.getInstance();
@@ -269,8 +315,11 @@ public class DashboardActivity extends BaseActivity {
             expCal.setTimeInMillis(e.getDate());
             if (expCal.get(Calendar.MONTH) == currentMonth
                     && expCal.get(Calendar.YEAR) == currentYear) {
-                catTotals.merge(e.getCategoryId(), (float) e.getAmount(), Float::sum);
-                grandTotal += (float) e.getAmount();
+                Long catId = e.getCategoryId();
+                if (catId != null) {
+                    catTotals.merge(catId, (float) e.getAmount(), Float::sum);
+                    grandTotal += (float) e.getAmount();
+                }
             }
         }
 
@@ -281,6 +330,11 @@ public class DashboardActivity extends BaseActivity {
             empty.setTextSize(13);
             llBreakdownContainer.addView(empty);
             return;
+        }
+
+        Map<Long, String> categoryNames = new HashMap<>();
+        for (Category cat : categories) {
+            categoryNames.put(cat.getId(), cat.getName());
         }
 
         int spacingSm = (int) getResources().getDimension(
@@ -307,8 +361,12 @@ public class DashboardActivity extends BaseActivity {
             rowParams.bottomMargin = spacingSm;
             row.setLayoutParams(rowParams);
 
+            String catName = categoryNames.containsKey(entry.getKey())
+                    ? categoryNames.get(entry.getKey())
+                    : getString(R.string.dashboard_category_label, entry.getKey());
+
             TextView tvLabel = new TextView(this);
-            tvLabel.setText(getString(R.string.dashboard_category_label, entry.getKey()));
+            tvLabel.setText(catName);
             tvLabel.setTextSize(12);
             tvLabel.setTextColor(0xFF6B6575);
             LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
@@ -363,7 +421,7 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
-    private void updateBudgetSection(List<Budget> budgets) {
+    private void updateBudgetSection(List<Budget> budgets, List<Category> categories) {
         llBudgetContainer.removeAllViews();
 
         if (budgets.isEmpty()) {
@@ -373,6 +431,11 @@ public class DashboardActivity extends BaseActivity {
             empty.setTextSize(13);
             llBudgetContainer.addView(empty);
             return;
+        }
+
+        Map<Long, Category> categoryMap = new HashMap<>();
+        for (Category cat : categories) {
+            categoryMap.put(cat.getId(), cat);
         }
 
         int spacingMd = (int) getResources().getDimension(
@@ -392,7 +455,8 @@ public class DashboardActivity extends BaseActivity {
             rowParams.bottomMargin = idx < budgets.size() - 1 ? spacingMd : 0;
             row.setLayoutParams(rowParams);
 
-            LinearLayout labelRow = buildBudgetLabelRow(budget, spacingXs, idx);
+            LinearLayout labelRow = buildBudgetLabelRow(
+                    budget, spacingXs, idx, categoryMap);
             LinearLayout track = buildBudgetTrack(barColor);
 
             row.addView(labelRow);
@@ -402,7 +466,8 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
-    private LinearLayout buildBudgetLabelRow(Budget budget, int spacingXs, int idx) {
+    private LinearLayout buildBudgetLabelRow(Budget budget, int spacingXs,
+                                             int idx, Map<Long, Category> categoryMap) {
         LinearLayout labelRow = new LinearLayout(this);
         labelRow.setOrientation(LinearLayout.HORIZONTAL);
         labelRow.setGravity(Gravity.CENTER_VERTICAL);
@@ -412,11 +477,18 @@ public class DashboardActivity extends BaseActivity {
         lrParams.bottomMargin = spacingXs;
         labelRow.setLayoutParams(lrParams);
 
+        Category cat = budget.getCategoryId() != null
+                ? categoryMap.get(budget.getCategoryId())
+                : null;
+        String emoji = cat != null
+                ? cat.getIcon()
+                : CATEGORY_EMOJIS[idx % CATEGORY_EMOJIS.length];
+        String name = cat != null
+                ? cat.getName()
+                : getString(R.string.dashboard_category_label, budget.getCategoryId());
+
         TextView tvName = new TextView(this);
-        tvName.setText(getString(
-                R.string.dashboard_budget_name_format,
-                CATEGORY_EMOJIS[idx % CATEGORY_EMOJIS.length],
-                budget.getCategoryId()));
+        tvName.setText(getString(R.string.dashboard_budget_name_format, emoji, name));
         tvName.setTextSize(13);
         tvName.setTextColor(0xFF1C1B1F);
         LinearLayout.LayoutParams nameParams = new LinearLayout.LayoutParams(
@@ -462,5 +534,13 @@ public class DashboardActivity extends BaseActivity {
         fill.setLayoutParams(fillParams);
         fill.setBackground(fillBg);
         return fill;
+    }
+
+    private void updateBudgetLeft() {
+        TextView tvBudgetLeft = findViewById(R.id.tvBudgetLeft);
+        Double total = viewModel.getTotalThisMonth().getValue();
+        double spent = total != null ? total : 0.0;
+        double left = currentTotalBudget - spent;
+        tvBudgetLeft.setText(getString(R.string.dashboard_amount_format, left));
     }
 }
