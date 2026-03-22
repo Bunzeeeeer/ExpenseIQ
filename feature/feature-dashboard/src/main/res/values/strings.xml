@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Greeting -->
+    <string name="greeting_morning">Good morning! 🌸</string>
+    <string name="greeting_afternoon">Good afternoon! ☀️</string>
+    <string name="greeting_evening">Good evening! 🌙</string>
+
+    <!-- Date formats -->
+    <string name="dashboard_date_format">MMMM dd, yyyy</string>
+    <string name="dashboard_month_format">MMM</string>
+    <string name="dashboard_date_short_format">MMM dd</string>
+
+    <!-- Dashboard labels -->
+    <string name="dashboard_total_this_month">Total this month</string>
+    <string name="dashboard_expenses_label">Expenses</string>
+    <string name="dashboard_budget_left_label">Budget left</string>
+    <string name="dashboard_this_month_label">This month</string>
+
+    <!-- Section titles -->
+    <string name="dashboard_section_overview">Overview</string>
+    <string name="dashboard_section_breakdown">Spending breakdown</string>
+    <string name="dashboard_section_budget">Budget overview</string>
+    <string name="dashboard_section_recent">Recent expenses</string>
+
+    <!-- Empty states -->
+    <string name="dashboard_empty_expenses">No expenses this month yet 🌸</string>
+    <string name="dashboard_empty_budget">No budgets set for this month 💸</string>
+
+    <!-- Budget -->
+    <string name="dashboard_budget_limit">₱%.2f limit</string>
+    <string name="dashboard_category_label">Category #%d</string>
+    <string name="dashboard_category_amount_tag">cat_amount_%d</string>
+    <string name="dashboard_budget_name_format">%1$s  Category #%2$d</string>
+
+    <!-- Amount formats -->
+    <string name="dashboard_amount_format">₱%.2f</string>
+    <string name="dashboard_amount_short_format">₱%.0f</string>
+    <string name="dashboard_amount_negative_format">-₱%.2f</string>
+</resources>

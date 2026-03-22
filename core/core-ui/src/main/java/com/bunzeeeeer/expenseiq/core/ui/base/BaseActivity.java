@@ -15,15 +15,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        initViews();
-        observeViewModel();
+        initDesign();
+        initViewModel();
+        initObservers();
     }
 
     protected abstract int getLayoutId();
 
-    protected abstract void initViews();
+    protected abstract void initDesign();
 
-    protected abstract void observeViewModel();
+    protected abstract void initViewModel();
+
+    protected abstract void initObservers();
 
     @Override
     protected void onDestroy() {
