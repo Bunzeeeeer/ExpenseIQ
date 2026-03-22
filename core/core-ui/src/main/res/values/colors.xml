@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Primary Brand Colors -->
-    <color name="primary">#6750A4</color>
+    <color name="primary">#7B5EA7</color>
     <color name="on_primary">#FFFFFF</color>
     <color name="primary_container">#EADDFF</color>
     <color name="on_primary_container">#21005D</color>
@@ -24,19 +24,45 @@
     <color name="warning">#7D5700</color>
 
     <!-- Background & Surface -->
-    <color name="background">#FFFBFE</color>
+    <color name="background">#F8F6FF</color>
     <color name="on_background">#1C1B1F</color>
-    <color name="surface">#FFFBFE</color>
+    <color name="surface">#F8F6FF</color>
     <color name="on_surface">#1C1B1F</color>
     <color name="surface_variant">#E7E0EC</color>
     <color name="on_surface_variant">#49454F</color>
 
-    <!-- Expense Category Colors -->
-    <color name="category_food">#FF6B6B</color>
-    <color name="category_transport">#4ECDC4</color>
-    <color name="category_bills">#45B7D1</color>
-    <color name="category_entertainment">#96CEB4</color>
-    <color name="category_shopping">#FFEAA7</color>
-    <color name="category_health">#DDA0DD</color>
-    <color name="category_other">#B0B0B0</color>
+    <!-- Card surface (white) -->
+    <color name="surface_card">#FFFFFF</color>
+
+    <!-- Pastel Category Card Backgrounds -->
+    <color name="pastel_pink_bg">#FFF0F5</color>
+    <color name="pastel_mint_bg">#F0FAF5</color>
+    <color name="pastel_peach_bg">#FFF4EE</color>
+    <color name="pastel_lavender_bg">#F3F0FF</color>
+    <color name="pastel_blue_bg">#EEF4FF</color>
+    <color name="pastel_yellow_bg">#FFFBEE</color>
+
+    <!-- Pastel Category Text/Accent Colors -->
+    <color name="pastel_pink_accent">#C4547A</color>
+    <color name="pastel_mint_accent">#1A7F5A</color>
+    <color name="pastel_peach_accent">#C05E30</color>
+    <color name="pastel_lavender_accent">#6040B0</color>
+    <color name="pastel_blue_accent">#2E5FA3</color>
+    <color name="pastel_yellow_accent">#8B6914</color>
+
+    <!-- Pastel Bar/Progress Colors -->
+    <color name="bar_food">#FFB3C6</color>
+    <color name="bar_transport">#A8E6CF</color>
+    <color name="bar_shopping">#FFCBA4</color>
+    <color name="bar_bills">#B5D0FF</color>
+    <color name="bar_health">#D4BBFF</color>
+    <color name="bar_other">#D3D1C7</color>
+
+    <!-- Hero card -->
+    <color name="hero_start">#9B7FC7</color>
+    <color name="hero_end">#7B5EA7</color>
+
+    <!-- Muted text -->
+    <color name="text_muted">#9B95A3</color>
+    <color name="text_secondary">#6B6575</color>
 </resources>

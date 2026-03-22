@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/spacing_sm"
+    android:paddingVertical="@dimen/spacing_sm">
+
+    <!-- Icon bubble -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardExpenseIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/pastel_pink_bg"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <TextView
+            android:id="@+id/tvExpenseIcon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="🧾"
+            android:textSize="18sp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Info -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/spacing_sm">
+
+        <TextView
+            android:id="@+id/tvExpenseTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.ExpenseIQ.BodyMedium"
+            android:textColor="@color/on_surface" />
+
+        <TextView
+            android:id="@+id/tvExpenseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="@color/text_muted" />
+
+    </LinearLayout>
+
+    <!-- Amount -->
+    <TextView
+        android:id="@+id/tvExpenseAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.ExpenseIQ.LabelLarge"
+        android:textColor="@color/pastel_pink_accent" />
+
+</LinearLayout>

@@ -31,9 +31,9 @@ public class Expense {
     private double amount;
     private long date;
     private String note;
-    private Long categoryId;
+    private long categoryId;
 
-    public Expense(String title, double amount, long date, String note, Long categoryId) {
+    public Expense(String title, double amount, long date, String note, long categoryId) {
         this.title = title;
         this.amount = amount;
         this.date = date;
