@@ -54,4 +54,6 @@
 
     <string name="budget_save_button">Save Budget</string>
     <string name="budget_delete_button">Delete Budget</string>
+
+    <string name="budget_menu_categories">Categories</string>
 </resources>

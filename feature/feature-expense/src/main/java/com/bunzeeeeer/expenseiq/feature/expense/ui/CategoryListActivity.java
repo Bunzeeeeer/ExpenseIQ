@@ -13,35 +13,39 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bunzeeeeer.expenseiq.core.data.AppDatabase;
 import com.bunzeeeeer.expenseiq.core.data.repository.CategoryRepositoryImpl;
 import com.bunzeeeeer.expenseiq.core.data.repository.ExpenseRepositoryImpl;
+import com.bunzeeeeer.expenseiq.core.domain.model.Category;
 import com.bunzeeeeer.expenseiq.core.ui.base.BaseActivity;
 import com.bunzeeeeer.expenseiq.feature.expense.R;
 import com.bunzeeeeer.expenseiq.feature.expense.data.ExpenseFeatureRepository;
-import com.bunzeeeeer.expenseiq.feature.expense.ui.adapter.ExpenseListAdapter;
-import com.bunzeeeeer.expenseiq.feature.expense.viewmodel.ExpenseListViewModel;
-import com.bunzeeeeer.expenseiq.feature.expense.viewmodel.ExpenseListViewModelFactory;
+import com.bunzeeeeer.expenseiq.feature.expense.ui.adapter.CategoryListAdapter;
+import com.bunzeeeeer.expenseiq.feature.expense.viewmodel.CategoryListViewModel;
+import com.bunzeeeeer.expenseiq.feature.expense.viewmodel.CategoryListViewModelFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  *
  * @Author: Lance Joshua Corcega, Claude AI
- * @Date: 03-15-2026
+ * @Date: 03-22-2026
  *
  */
 @SuppressWarnings("java:S1450")
-public class ExpenseListActivity extends BaseActivity {
+public class CategoryListActivity extends BaseActivity {
 
-    public static final String EXTRA_EXPENSE_ID = "extra_expense_id";
+    public static final String EXTRA_CATEGORY_ID = "extra_category_id";
+    public static final String EXTRA_CATEGORY_NAME = "extra_category_name";
+    public static final String EXTRA_CATEGORY_ICON = "extra_category_icon";
+    public static final String EXTRA_CATEGORY_COLOR = "extra_category_color";
 
-    private ExpenseListViewModel viewModel;
-    private ExpenseListAdapter adapter;
+    private CategoryListViewModel viewModel;
+    private CategoryListAdapter adapter;
     private LinearLayout llEmptyState;
-    private RecyclerView rvExpenses;
+    private RecyclerView rvCategories;
 
     // ─── BaseActivity contract ────────────────────────────────────────────────
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_expense_list;
+        return R.layout.activity_category_list;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class ExpenseListActivity extends BaseActivity {
 
     @Override
     protected void initObservers() {
-        initExpensesObserver();
+        initCategoriesObserver();
         initErrorObserver();
     }
 
@@ -71,18 +75,16 @@ public class ExpenseListActivity extends BaseActivity {
 
     private void initViewComponents() {
         llEmptyState = findViewById(R.id.llEmptyState);
-        rvExpenses = findViewById(R.id.rvExpenses);
-        adapter = new ExpenseListAdapter();
-        rvExpenses.setLayoutManager(new LinearLayoutManager(this));
-        rvExpenses.setAdapter(adapter);
-        adapter.setOnExpenseClickListener(expense ->
-                navigateToEditExpense(expense.getId())
-        );
+        rvCategories = findViewById(R.id.rvCategories);
+        adapter = new CategoryListAdapter();
+        rvCategories.setLayoutManager(new LinearLayoutManager(this));
+        rvCategories.setAdapter(adapter);
+        adapter.setOnCategoryClickListener(this::navigateToEditCategory);
     }
 
     private void initFab() {
-        FloatingActionButton fab = findViewById(R.id.fabAddExpense);
-        fab.setOnClickListener(v -> navigateToAddExpense());
+        FloatingActionButton fab = findViewById(R.id.fabAddCategory);
+        fab.setOnClickListener(v -> navigateToAddCategory());
     }
 
     // ─── ViewModel ───────────────────────────────────────────────────────────
@@ -94,17 +96,19 @@ public class ExpenseListActivity extends BaseActivity {
                 new CategoryRepositoryImpl(db.categoryDao())
         );
         viewModel = new ViewModelProvider(this,
-                new ExpenseListViewModelFactory(repository))
-                .get(ExpenseListViewModel.class);
+                new CategoryListViewModelFactory(repository))
+                .get(CategoryListViewModel.class);
     }
 
     // ─── Observers ───────────────────────────────────────────────────────────
 
-    private void initExpensesObserver() {
-        viewModel.getExpenses().observe(this, expenses -> {
-            adapter.setExpenses(expenses);
-            llEmptyState.setVisibility(expenses.isEmpty() ? View.VISIBLE : View.GONE);
-            rvExpenses.setVisibility(expenses.isEmpty() ? View.GONE : View.VISIBLE);
+    private void initCategoriesObserver() {
+        viewModel.getCategories().observe(this, categories -> {
+            adapter.setCategories(categories);
+            llEmptyState.setVisibility(
+                    categories.isEmpty() ? View.VISIBLE : View.GONE);
+            rvCategories.setVisibility(
+                    categories.isEmpty() ? View.GONE : View.VISIBLE);
         });
     }
 
@@ -116,36 +120,19 @@ public class ExpenseListActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_expense_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        if (item.getItemId() == R.id.action_categories) {
-            navigateToCategories();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     // ─── Navigation ──────────────────────────────────────────────────────────
 
-    private void navigateToAddExpense() {
-        Intent intent = new Intent(this, AddEditExpenseActivity.class);
+    private void navigateToAddCategory() {
+        Intent intent = new Intent(this, AddEditCategoryActivity.class);
         startActivity(intent);
     }
 
-    private void navigateToEditExpense(long expenseId) {
-        Intent intent = new Intent(this, AddEditExpenseActivity.class);
-        intent.putExtra(EXTRA_EXPENSE_ID, expenseId);
-        startActivity(intent);
-    }
-
-    private void navigateToCategories() {
-        Intent intent = new Intent(this, CategoryListActivity.class);
+    private void navigateToEditCategory(Category category) {
+        Intent intent = new Intent(this, AddEditCategoryActivity.class);
+        intent.putExtra(EXTRA_CATEGORY_ID, category.getId());
+        intent.putExtra(EXTRA_CATEGORY_NAME, category.getName());
+        intent.putExtra(EXTRA_CATEGORY_ICON, category.getIcon());
+        intent.putExtra(EXTRA_CATEGORY_COLOR, category.getColorHex());
         startActivity(intent);
     }
 }

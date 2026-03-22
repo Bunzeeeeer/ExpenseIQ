@@ -124,6 +124,21 @@ public class BudgetListActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_budget_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == R.id.action_categories) {
+            navigateToCategories();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     // ─── Navigation ──────────────────────────────────────────────────────────
 
     private void navigateToAddBudget() {
@@ -139,6 +154,12 @@ public class BudgetListActivity extends BaseActivity {
         intent.putExtra(EXTRA_BUDGET_MONTH, budget.getMonth());
         intent.putExtra(EXTRA_BUDGET_YEAR, budget.getYear());
         intent.putExtra(EXTRA_BUDGET_AMOUNT, budget.getLimitAmount());
+        startActivity(intent);
+    }
+
+    private void navigateToCategories() {
+        Intent intent = new Intent(this,
+                com.bunzeeeeer.expenseiq.feature.expense.ui.CategoryListActivity.class);
         startActivity(intent);
     }
 }

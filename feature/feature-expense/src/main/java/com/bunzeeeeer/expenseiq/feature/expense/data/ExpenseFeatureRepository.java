@@ -49,6 +49,18 @@ public class ExpenseFeatureRepository {
         return expenseRepository.deleteExpense(expense);
     }
 
+    public Completable addCategory(Category category) {
+        return categoryRepository.addCategory(category);
+    }
+
+    public Completable updateCategory(Category category) {
+        return categoryRepository.updateCategory(category);
+    }
+
+    public Completable deleteCategory(Category category) {
+        return categoryRepository.deleteCategory(category);
+    }
+
     public Flowable<List<Category>> getAllCategories() {
         return categoryRepository.getAllCategories();
     }
