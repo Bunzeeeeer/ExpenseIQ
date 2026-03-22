@@ -19,6 +19,7 @@
     <string name="expense_date_label">Date</string>
     <string name="expense_note_label">Note</string>
     <string name="expense_note_hint">Optional note…</string>
+    <string name="expense_menu_categories">Categories</string>
 
     <!-- Buttons -->
     <string name="expense_save_button">Save expense</string>
@@ -47,4 +48,46 @@
 
     <!-- Accessibility -->
     <string name="expense_date_content_description">Select expense date</string>
+
+    <!-- Category List -->
+    <string name="category_list_title">Categories</string>
+    <string name="category_list_empty_icon">🏷️</string>
+    <string name="category_list_empty">No categories yet</string>
+    <string name="category_list_empty_sub">Tap + to add a category</string>
+    <string name="category_fab_description">Add category</string>
+
+    <!-- Add/Edit Category -->
+    <string name="category_add_title">Add Category</string>
+    <string name="category_edit_title">Edit Category</string>
+    <string name="category_name_label">Name</string>
+    <string name="category_name_hint">e.g. Food</string>
+    <string name="category_icon_label">Icon</string>
+    <string name="category_icon_hint">e.g. 🍜</string>
+    <string name="category_icon_hint_sub">Paste any emoji as the category icon</string>
+    <string name="category_color_label">Color</string>
+    <string name="category_color_hint">#FF6B6B</string>
+    <string name="category_color_hint_sub">Enter a hex color code e.g. #FF6B6B</string>
+    <string name="category_list_chevron">›</string>
+
+    <!-- Autofill hints -->
+    <string name="category_autofill_name">Category name</string>
+    <string name="category_autofill_icon">Category icon</string>
+    <string name="category_autofill_color">Category color</string>
+
+    <!-- Feedback -->
+    <string name="category_saved_message">Category saved!</string>
+    <string name="category_save_button">Save Category</string>
+    <string name="category_delete_button">Delete Category</string>
+
+    <!-- Delete dialog -->
+    <string name="category_delete_confirm_title">Delete category</string>
+    <string name="category_delete_confirm_message">Are you sure? Expenses in this category will have no category assigned.</string>
+    <string name="category_delete_confirm_yes">Delete</string>
+    <string name="category_delete_confirm_no">Cancel</string>
+
+    <!-- Validation -->
+    <string name="category_error_empty_name">Please enter a name</string>
+    <string name="category_error_empty_icon">Please enter an icon</string>
+    <string name="category_error_empty_color">Please enter a color</string>
+    <string name="category_error_invalid_color">Please enter a valid hex color e.g. #FF6B6B</string>
 </resources>
