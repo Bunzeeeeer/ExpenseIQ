@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  *
@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity {
     private List<Budget> currentBudgets;
     private List<Category> currentCategories;
 
-    private static final Random RANDOM = new Random();
+    private static final SecureRandom RANDOM = new SecureRandom();
     private static final String[] MONEY_TIPS = {
             "💡 Track every peso — small expenses add up fast!",
             "💡 The 50/30/20 rule: 50% needs, 30% wants, 20% savings.",
