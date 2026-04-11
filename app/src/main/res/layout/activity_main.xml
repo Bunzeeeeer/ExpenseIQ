@@ -66,9 +66,34 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btnLogout"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="@dimen/spacing_sm"
+                    app:cardCornerRadius="22dp"
+                    app:cardBackgroundColor="@color/primary_container"
+                    app:cardElevation="0dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/home_logout_emoji"
+                        android:textSize="20sp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
             </LinearLayout>
 
-            <!-- Hero Card -->
+            <!-- Financial Health Score Card -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_section_health_score"
+                android:textAppearance="@style/TextAppearance.ExpenseIQ.TitleMedium"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,123 +105,84 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_hero_card"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_lg">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_lg"
+                    android:baselineAligned="false">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_total_label"
-                        android:textSize="13sp"
-                        android:textColor="#CCFFFFFF" />
+                    <!-- Score Ring -->
+                    <FrameLayout
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_marginEnd="@dimen/spacing_lg">
 
-                    <TextView
-                        android:id="@+id/tvTotalAmount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_amount_default"
-                        android:textSize="38sp"
-                        android:textColor="#FFFFFF"
-                        android:letterSpacing="-0.02"
-                        android:layout_marginBottom="@dimen/spacing_md" />
+                        <View
+                            android:id="@+id/healthScoreRing"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:background="@drawable/bg_score_ring" />
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tvHealthScore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/home_health_score_default"
+                                android:textSize="28sp"
+                                android:textStyle="bold"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/home_health_score_label"
+                                android:textSize="10sp"
+                                android:textColor="#CCFFFFFF" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <!-- Score Info -->
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false"
-                        android:weightSum="3">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/tvHealthLabel"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:background="@drawable/bg_hero_chip"
-                            android:layout_marginEnd="@dimen/spacing_sm"
-                            android:padding="@dimen/spacing_sm"
-                            android:gravity="center">
+                            android:text="@string/home_health_great"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF"
+                            android:layout_marginBottom="@dimen/spacing_xs" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/home_expenses_label"
-                                android:textSize="11sp"
-                                android:textColor="#CCFFFFFF" />
-
-                            <TextView
-                                android:id="@+id/tvExpenseCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/home_default_count"
-                                android:textSize="16sp"
-                                android:textColor="#FFFFFF" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:background="@drawable/bg_hero_chip"
-                            android:layout_marginEnd="@dimen/spacing_sm"
-                            android:padding="@dimen/spacing_sm"
-                            android:gravity="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/home_budget_left_label"
-                                android:textSize="11sp"
-                                android:textColor="#CCFFFFFF" />
-
-                            <TextView
-                                android:id="@+id/tvBudgetLeft"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/home_amount_default"
-                                android:textSize="16sp"
-                                android:textColor="#FFFFFF" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:background="@drawable/bg_hero_chip"
-                            android:padding="@dimen/spacing_sm"
-                            android:gravity="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/home_this_month_label"
-                                android:textSize="11sp"
-                                android:textColor="#CCFFFFFF" />
-
-                            <TextView
-                                android:id="@+id/tvMonthLabel"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/home_month_default"
-                                android:textSize="16sp"
-                                android:textColor="#FFFFFF" />
-
-                        </LinearLayout>
+                            android:text="@string/home_health_description"
+                            android:textSize="12sp"
+                            android:textColor="#CCFFFFFF" />
 
                     </LinearLayout>
 
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
-            <!-- Section: Spending Insight -->
+            <!-- Streak Card -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home_section_insight"
+                android:text="@string/home_section_streak"
                 android:textAppearance="@style/TextAppearance.ExpenseIQ.TitleMedium"
                 android:layout_marginBottom="@dimen/spacing_sm" />
 
@@ -206,33 +192,7 @@
                 android:layout_marginBottom="@dimen/spacing_md"
                 app:cardCornerRadius="@dimen/radius_lg"
                 app:cardElevation="@dimen/card_elevation"
-                app:cardBackgroundColor="@color/surface_card">
-
-                <TextView
-                    android:id="@+id/tvInsight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/spacing_md"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_secondary" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Section: Top Spending Category -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/home_section_top_category"
-                android:textAppearance="@style/TextAppearance.ExpenseIQ.TitleMedium"
-                android:layout_marginBottom="@dimen/spacing_sm" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_md"
-                app:cardCornerRadius="@dimen/radius_lg"
-                app:cardElevation="@dimen/card_elevation"
-                app:cardBackgroundColor="@color/pastel_lavender_bg">
+                app:cardBackgroundColor="@color/pastel_yellow_bg">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -243,31 +203,47 @@
                     android:padding="@dimen/spacing_md">
 
                     <TextView
-                        android:id="@+id/tvTopCategory"
+                        android:id="@+id/tvStreakCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="40sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/pastel_yellow_accent"
+                        android:layout_marginEnd="@dimen/spacing_md" />
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="15sp"
-                        android:textColor="@color/pastel_lavender_accent" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvTopCategoryAmount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/pastel_lavender_accent"
-                        android:visibility="gone" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_streak_title"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/pastel_yellow_accent" />
+
+                        <TextView
+                            android:id="@+id/tvStreakLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_secondary" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Section: Budget Health -->
+            <!-- Smart Alerts -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home_section_budget_health"
+                android:text="@string/home_section_alerts"
                 android:textAppearance="@style/TextAppearance.ExpenseIQ.TitleMedium"
                 android:layout_marginBottom="@dimen/spacing_sm" />
 
@@ -280,7 +256,7 @@
                 app:cardBackgroundColor="@color/surface_card">
 
                 <LinearLayout
-                    android:id="@+id/llBudgetHealthContainer"
+                    android:id="@+id/llAlertsContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -288,11 +264,11 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Section: Upcoming -->
+            <!-- Weekly Spending Chart -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home_section_upcoming"
+                android:text="@string/home_section_weekly"
                 android:textAppearance="@style/TextAppearance.ExpenseIQ.TitleMedium"
                 android:layout_marginBottom="@dimen/spacing_sm" />
 
@@ -302,34 +278,17 @@
                 android:layout_marginBottom="@dimen/spacing_md"
                 app:cardCornerRadius="@dimen/radius_lg"
                 app:cardElevation="@dimen/card_elevation"
-                app:cardBackgroundColor="@color/pastel_mint_bg">
+                app:cardBackgroundColor="@color/surface_card">
 
-                <LinearLayout
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barChartWeekly"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_md">
-
-                    <TextView
-                        android:id="@+id/tvDaysLeft"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/pastel_mint_accent" />
-
-                    <TextView
-                        android:id="@+id/tvDailyBudget"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="13sp"
-                        android:textColor="@color/text_secondary"
-                        android:layout_marginTop="@dimen/spacing_xs" />
-
-                </LinearLayout>
+                    android:layout_height="180dp"
+                    android:padding="@dimen/spacing_md" />
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Section: Money Tip -->
+            <!-- Money Tip -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -343,7 +302,7 @@
                 android:layout_marginBottom="@dimen/spacing_md"
                 app:cardCornerRadius="@dimen/radius_lg"
                 app:cardElevation="@dimen/card_elevation"
-                app:cardBackgroundColor="@color/pastel_yellow_bg">
+                app:cardBackgroundColor="@color/pastel_mint_bg">
 
                 <TextView
                     android:id="@+id/tvMoneyTip"
@@ -351,7 +310,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_md"
                     android:textSize="14sp"
-                    android:textColor="@color/pastel_yellow_accent" />
+                    android:textColor="@color/pastel_mint_accent" />
 
             </com.google.android.material.card.MaterialCardView>
 

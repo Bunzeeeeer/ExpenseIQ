@@ -20,16 +20,19 @@ public class BudgetFeatureRepository {
 
     private final BudgetRepository budgetRepository;
     private final CategoryRepository categoryRepository;
+    private final String userId;
 
     public BudgetFeatureRepository(
+            String userId,
             BudgetRepository budgetRepository,
             CategoryRepository categoryRepository) {
+        this.userId = userId;
         this.budgetRepository = budgetRepository;
         this.categoryRepository = categoryRepository;
     }
 
     public Flowable<List<Budget>> getBudgetsByMonth(int month, int year) {
-        return budgetRepository.getBudgetsByMonth(month, year);
+        return budgetRepository.getBudgetsByMonth(userId, month, year);
     }
 
     public Completable addBudget(Budget budget) {

@@ -24,18 +24,21 @@ public class DashboardRepository {
     private final ExpenseRepository expenseRepository;
     private final CategoryRepository categoryRepository;
     private final BudgetRepository budgetRepository;
+    private final String userId;
 
     public DashboardRepository(
+            String userId,
             ExpenseRepository expenseRepository,
             CategoryRepository categoryRepository,
             BudgetRepository budgetRepository) {
+        this.userId = userId;
         this.expenseRepository = expenseRepository;
         this.categoryRepository = categoryRepository;
         this.budgetRepository = budgetRepository;
     }
 
     public Flowable<List<Expense>> getRecentExpenses() {
-        return expenseRepository.getAllExpenses();
+        return expenseRepository.getAllExpenses(userId);
     }
 
     public Flowable<List<Category>> getAllCategories() {
@@ -46,7 +49,7 @@ public class DashboardRepository {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
-        return budgetRepository.getBudgetsByMonth(month, year);
+        return budgetRepository.getBudgetsByMonth(userId, month, year);
     }
 
     public Single<Double> getTotalExpensesThisMonth() {
@@ -58,6 +61,6 @@ public class DashboardRepository {
         cal.set(Calendar.MILLISECOND, 0);
         long startDate = cal.getTimeInMillis();
         long endDate = System.currentTimeMillis();
-        return expenseRepository.getTotalExpensesBetween(startDate, endDate);
+        return expenseRepository.getTotalExpensesBetween(userId, startDate, endDate);
     }
 }

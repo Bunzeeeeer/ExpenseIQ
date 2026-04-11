@@ -33,21 +33,21 @@ public interface ExpenseDao {
     @Delete
     Completable delete(Expense expense);
 
-    @Query("SELECT * FROM expenses ORDER BY date DESC")
-    Flowable<List<Expense>> getAllExpenses();
+    @Query("SELECT * FROM expenses WHERE userId = :userId ORDER BY date DESC")
+    Flowable<List<Expense>> getAllExpenses(String userId);
 
-    @Query("SELECT * FROM expenses WHERE id = :id")
-    Single<Expense> getExpenseById(long id);
+    @Query("SELECT * FROM expenses WHERE id = :id AND userId = :userId")
+    Single<Expense> getExpenseById(long id, String userId);
 
-    @Query("SELECT * FROM expenses WHERE categoryId = :categoryId ORDER BY date DESC")
-    Flowable<List<Expense>> getExpensesByCategory(long categoryId);
+    @Query("SELECT * FROM expenses WHERE categoryId = :categoryId AND userId = :userId ORDER BY date DESC")
+    Flowable<List<Expense>> getExpensesByCategory(long categoryId, String userId);
 
-    @Query("SELECT * FROM expenses WHERE date BETWEEN :startDate AND :endDate ORDER BY date DESC")
-    Flowable<List<Expense>> getExpensesByDateRange(long startDate, long endDate);
+    @Query("SELECT * FROM expenses WHERE userId = :userId AND date BETWEEN :startDate AND :endDate ORDER BY date DESC")
+    Flowable<List<Expense>> getExpensesByDateRange(String userId, long startDate, long endDate);
 
-    @Query("SELECT SUM(amount) FROM expenses WHERE date BETWEEN :startDate AND :endDate")
-    Single<Double> getTotalExpensesBetween(long startDate, long endDate);
+    @Query("SELECT SUM(amount) FROM expenses WHERE userId = :userId AND date BETWEEN :startDate AND :endDate")
+    Single<Double> getTotalExpensesBetween(String userId, long startDate, long endDate);
 
-    @Query("SELECT SUM(amount) FROM expenses WHERE categoryId = :categoryId AND date BETWEEN :startDate AND :endDate")
-    Single<Double> getTotalByCategory(long categoryId, long startDate, long endDate);
+    @Query("SELECT SUM(amount) FROM expenses WHERE userId = :userId AND categoryId = :categoryId AND date BETWEEN :startDate AND :endDate")
+    Single<Double> getTotalByCategory(String userId, long categoryId, long startDate, long endDate);
 }

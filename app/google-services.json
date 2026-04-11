@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "760972552608",
+    "project_id": "expenseiq-95649",
+    "storage_bucket": "expenseiq-95649.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760972552608:android:e0b0e3a45793a6de419cc5",
+        "android_client_info": {
+          "package_name": "com.bunzeeeeer.expenseiq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8wNrvdHWuUKhW1mkby8N59lBu68FGBKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

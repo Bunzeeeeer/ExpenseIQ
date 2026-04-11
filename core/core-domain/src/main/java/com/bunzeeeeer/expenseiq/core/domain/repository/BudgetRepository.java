@@ -22,7 +22,7 @@ public interface BudgetRepository {
 
     Completable deleteBudget(Budget budget);
 
-    Flowable<List<Budget>> getBudgetsByMonth(int month, int year);
+    Flowable<List<Budget>> getBudgetsByMonth(String userId, int month, int year);
 
-    Single<Budget> getBudgetByCategoryAndMonth(long categoryId, int month, int year);
+    Single<Budget> getBudgetByCategoryAndMonth(String userId, long categoryId, int month, int year);
 }

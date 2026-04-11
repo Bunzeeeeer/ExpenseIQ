@@ -55,6 +55,7 @@ public class AddEditBudgetActivity extends BaseActivity {
     private int budgetMonth = -1;
     private int budgetYear = -1;
     private double budgetAmount = 0;
+    private String currentUserId = "";
 
     // ─── BaseActivity contract ────────────────────────────────────────────────
 
@@ -149,8 +150,12 @@ public class AddEditBudgetActivity extends BaseActivity {
     // ─── ViewModel ───────────────────────────────────────────────────────────
 
     private void initViewModelConstructor() {
+        currentUserId = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null
+                ? com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : "";
         AppDatabase db = AppDatabase.getInstance(this);
         BudgetFeatureRepository repository = new BudgetFeatureRepository(
+                currentUserId,
                 new BudgetRepositoryImpl(db.budgetDao()),
                 new CategoryRepositoryImpl(db.categoryDao())
         );
@@ -263,16 +268,17 @@ public class AddEditBudgetActivity extends BaseActivity {
             return;
         }
 
+        viewModel.saveBudget(buildBudget(selectedCategory, amount));
+    }
+
+    private Budget buildBudget(Category selectedCategory, double amount) {
         int month = selectedMonth.get(Calendar.MONTH) + 1;
         int year = selectedMonth.get(Calendar.YEAR);
-
-        Budget budget = new Budget(selectedCategory.getId(), amount, month, year);
-
+        Budget budget = new Budget(currentUserId, selectedCategory.getId(), amount, month, year);
         if (budgetId != -1) {
             budget.setId(budgetId);
         }
-
-        viewModel.saveBudget(budget);
+        return budget;
     }
 
     private void showDeleteConfirmation() {
@@ -283,6 +289,7 @@ public class AddEditBudgetActivity extends BaseActivity {
                         (dialog, which) -> {
                             if (budgetId != -1) {
                                 Budget budget = new Budget(
+                                        currentUserId,
                                         budgetCategoryId != -1 ? budgetCategoryId : null,
                                         0,
                                         budgetMonth,

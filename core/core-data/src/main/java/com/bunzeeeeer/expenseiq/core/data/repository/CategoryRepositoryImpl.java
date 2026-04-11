@@ -10,6 +10,12 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
+/**
+ *
+ * @Author: Lance Joshua Corcega
+ * @Date: 03-15-2026
+ *
+ */
 public class CategoryRepositoryImpl implements CategoryRepository {
 
     private final CategoryDao categoryDao;

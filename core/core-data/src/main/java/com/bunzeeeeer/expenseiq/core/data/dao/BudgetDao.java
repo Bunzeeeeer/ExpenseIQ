@@ -33,9 +33,9 @@ public interface BudgetDao {
     @Delete
     Completable delete(Budget budget);
 
-    @Query("SELECT * FROM budgets WHERE month = :month AND year = :year")
-    Flowable<List<Budget>> getBudgetsByMonth(int month, int year);
+    @Query("SELECT * FROM budgets WHERE userId = :userId AND month = :month AND year = :year")
+    Flowable<List<Budget>> getBudgetsByMonth(String userId, int month, int year);
 
-    @Query("SELECT * FROM budgets WHERE categoryId = :categoryId AND month = :month AND year = :year")
-    Single<Budget> getBudgetByCategoryAndMonth(long categoryId, int month, int year);
+    @Query("SELECT * FROM budgets WHERE userId = :userId AND categoryId = :categoryId AND month = :month AND year = :year")
+    Single<Budget> getBudgetByCategoryAndMonth(String userId, long categoryId, int month, int year);
 }

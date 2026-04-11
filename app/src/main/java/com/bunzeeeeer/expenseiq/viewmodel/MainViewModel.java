@@ -31,18 +31,22 @@ public class MainViewModel extends ViewModel {
     private final BudgetRepository budgetRepository;
     private final CategoryRepository categoryRepository;
     private final CompositeDisposable disposables = new CompositeDisposable();
+    private final String userId;
 
     private final MutableLiveData<Double> totalThisMonth = new MutableLiveData<>(0.0);
     private final MutableLiveData<Double> totalLastMonth = new MutableLiveData<>(0.0);
     private final MutableLiveData<List<Expense>> expensesThisMonth = new MutableLiveData<>();
+    private final MutableLiveData<List<Expense>> expensesLastSevenDays = new MutableLiveData<>();
     private final MutableLiveData<List<Budget>> budgets = new MutableLiveData<>();
     private final MutableLiveData<List<Category>> categories = new MutableLiveData<>();
     private final MutableLiveData<String> error = new MutableLiveData<>();
 
     public MainViewModel(
+            String userId,
             ExpenseRepository expenseRepository,
             BudgetRepository budgetRepository,
             CategoryRepository categoryRepository) {
+        this.userId = userId;
         this.expenseRepository = expenseRepository;
         this.budgetRepository = budgetRepository;
         this.categoryRepository = categoryRepository;
@@ -51,10 +55,16 @@ public class MainViewModel extends ViewModel {
 
     // ─── Data Loading ─────────────────────────────────────────────────────────
 
+    public void refresh() {
+        disposables.clear();
+        loadData();
+    }
+
     private void loadData() {
         loadTotalThisMonth();
         loadTotalLastMonth();
         loadExpensesAndCategories();
+        loadWeeklyExpenses();
         loadBudgets();
     }
 
@@ -69,7 +79,7 @@ public class MainViewModel extends ViewModel {
         long endDate = System.currentTimeMillis();
 
         disposables.add(
-                expenseRepository.getTotalExpensesBetween(startDate, endDate)
+                expenseRepository.getTotalExpensesBetween(userId, startDate, endDate)
                         .subscribeOn(Schedulers.io())
                         .onErrorReturnItem(0.0)
                         .observeOn(AndroidSchedulers.mainThread())
@@ -93,7 +103,7 @@ public class MainViewModel extends ViewModel {
         long startDate = cal.getTimeInMillis();
 
         disposables.add(
-                expenseRepository.getTotalExpensesBetween(startDate, endDate)
+                expenseRepository.getTotalExpensesBetween(userId, startDate, endDate)
                         .subscribeOn(Schedulers.io())
                         .onErrorReturnItem(0.0)
                         .observeOn(AndroidSchedulers.mainThread())
@@ -118,7 +128,7 @@ public class MainViewModel extends ViewModel {
         disposables.add(
                 Flowable.combineLatest(
                                 expenseRepository.getExpensesByDateRange(
-                                        startDate, endDate),
+                                        userId, startDate, endDate),
                                 categoryRepository.getAllCategories(),
                                 (expenses, cats) -> {
                                     expensesThisMonth.postValue(expenses);
@@ -135,13 +145,34 @@ public class MainViewModel extends ViewModel {
         );
     }
 
+    private void loadWeeklyExpenses() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.DAY_OF_YEAR, -6);
+        long startDate = cal.getTimeInMillis();
+        long endDate = System.currentTimeMillis();
+
+        disposables.add(
+                expenseRepository.getExpensesByDateRange(userId, startDate, endDate)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                expensesLastSevenDays::setValue,
+                                e -> error.setValue(e.getMessage())
+                        )
+        );
+    }
+
     private void loadBudgets() {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
 
         disposables.add(
-                budgetRepository.getBudgetsByMonth(month, year)
+                budgetRepository.getBudgetsByMonth(userId, month, year)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
@@ -153,9 +184,12 @@ public class MainViewModel extends ViewModel {
 
     // ─── Exposed LiveData ─────────────────────────────────────────────────────
 
+    @SuppressWarnings("unused")
     public LiveData<Double> getTotalThisMonth() { return totalThisMonth; }
+    @SuppressWarnings("unused")
     public LiveData<Double> getTotalLastMonth() { return totalLastMonth; }
     public LiveData<List<Expense>> getExpensesThisMonth() { return expensesThisMonth; }
+    public LiveData<List<Expense>> getExpensesLastSevenDays() { return expensesLastSevenDays; }
     public LiveData<List<Budget>> getBudgets() { return budgets; }
     public LiveData<List<Category>> getCategories() { return categories; }
     public LiveData<String> getError() { return error; }

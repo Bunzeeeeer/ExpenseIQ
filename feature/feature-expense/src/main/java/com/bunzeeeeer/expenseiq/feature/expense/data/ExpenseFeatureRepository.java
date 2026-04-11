@@ -21,20 +21,23 @@ public class ExpenseFeatureRepository {
 
     private final ExpenseRepository expenseRepository;
     private final CategoryRepository categoryRepository;
+    private final String userId;
 
     public ExpenseFeatureRepository(
+            String userId,
             ExpenseRepository expenseRepository,
             CategoryRepository categoryRepository) {
+        this.userId = userId;
         this.expenseRepository = expenseRepository;
         this.categoryRepository = categoryRepository;
     }
 
     public Flowable<List<Expense>> getAllExpenses() {
-        return expenseRepository.getAllExpenses();
+        return expenseRepository.getAllExpenses(userId);
     }
 
     public Single<Expense> getExpenseById(long id) {
-        return expenseRepository.getExpenseById(id);
+        return expenseRepository.getExpenseById(id, userId);
     }
 
     public Completable addExpense(Expense expense) {

@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -39,6 +40,7 @@ dependencies {
     implementation project(':feature:feature-expense')
     implementation project(':feature:feature-charts')
     implementation project(':feature:feature-budget')
+    implementation project(':feature:feature-auth')
 
     // UI
     implementation libs.appcompat
@@ -57,6 +59,13 @@ dependencies {
     // Navigation
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
+
+    // Firebase
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.auth
+
+    // MPAndroidChart
+    implementation libs.mpandroidchart
 
     // Testing
     testImplementation libs.junit

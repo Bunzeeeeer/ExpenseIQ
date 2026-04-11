@@ -35,6 +35,10 @@ dependencies {
     implementation libs.rxjava2
     implementation libs.rxandroid
 
+    // Firebase
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.auth
+
     // Testing
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit

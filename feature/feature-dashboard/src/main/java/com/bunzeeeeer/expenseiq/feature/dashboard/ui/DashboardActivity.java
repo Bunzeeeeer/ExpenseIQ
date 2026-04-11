@@ -143,8 +143,12 @@ public class DashboardActivity extends BaseActivity {
     // ─── ViewModel ───────────────────────────────────────────────────────────
 
     private void initViewModelConstructor() {
+        String uid = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null
+                ? com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : "";
         AppDatabase db = AppDatabase.getInstance(this);
         DashboardRepository repository = new DashboardRepository(
+                uid,
                 new ExpenseRepositoryImpl(db.expenseDao()),
                 new CategoryRepositoryImpl(db.categoryDao()),
                 new BudgetRepositoryImpl(db.budgetDao())

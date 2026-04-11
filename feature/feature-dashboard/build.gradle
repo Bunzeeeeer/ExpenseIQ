@@ -38,6 +38,10 @@ dependencies {
     // Charts
     implementation libs.mpandroidchart
 
+    // Firebase
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.auth
+
     // Testing
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit

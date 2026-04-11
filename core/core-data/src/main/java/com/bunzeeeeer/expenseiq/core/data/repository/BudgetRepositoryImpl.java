@@ -10,6 +10,12 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
+/**
+ *
+ * @Author: Lance Joshua Corcega
+ * @Date: 03-15-2026
+ *
+ */
 public class BudgetRepositoryImpl implements BudgetRepository {
 
     private final BudgetDao budgetDao;
@@ -34,12 +40,12 @@ public class BudgetRepositoryImpl implements BudgetRepository {
     }
 
     @Override
-    public Flowable<List<Budget>> getBudgetsByMonth(int month, int year) {
-        return budgetDao.getBudgetsByMonth(month, year);
+    public Flowable<List<Budget>> getBudgetsByMonth(String userId, int month, int year) {
+        return budgetDao.getBudgetsByMonth(userId, month, year);
     }
 
     @Override
-    public Single<Budget> getBudgetByCategoryAndMonth(long categoryId, int month, int year) {
-        return budgetDao.getBudgetByCategoryAndMonth(categoryId, month, year);
+    public Single<Budget> getBudgetByCategoryAndMonth(String userId, long categoryId, int month, int year) {
+        return budgetDao.getBudgetByCategoryAndMonth(userId, categoryId, month, year);
     }
 }
