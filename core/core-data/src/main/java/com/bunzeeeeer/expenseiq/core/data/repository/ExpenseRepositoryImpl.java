@@ -10,6 +10,12 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
+/**
+ *
+ * @Author: Lance Joshua Corcega
+ * @Date: 03-15-2026
+ *
+ */
 public class ExpenseRepositoryImpl implements ExpenseRepository {
 
     private final ExpenseDao expenseDao;
@@ -34,32 +40,32 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
     }
 
     @Override
-    public Flowable<List<Expense>> getAllExpenses() {
-        return expenseDao.getAllExpenses();
+    public Flowable<List<Expense>> getAllExpenses(String userId) {
+        return expenseDao.getAllExpenses(userId);
     }
 
     @Override
-    public Single<Expense> getExpenseById(long id) {
-        return expenseDao.getExpenseById(id);
+    public Single<Expense> getExpenseById(long id, String userId) {
+        return expenseDao.getExpenseById(id, userId);
     }
 
     @Override
-    public Flowable<List<Expense>> getExpensesByCategory(long categoryId) {
-        return expenseDao.getExpensesByCategory(categoryId);
+    public Flowable<List<Expense>> getExpensesByCategory(long categoryId, String userId) {
+        return expenseDao.getExpensesByCategory(categoryId, userId);
     }
 
     @Override
-    public Flowable<List<Expense>> getExpensesByDateRange(long startDate, long endDate) {
-        return expenseDao.getExpensesByDateRange(startDate, endDate);
+    public Flowable<List<Expense>> getExpensesByDateRange(String userId, long startDate, long endDate) {
+        return expenseDao.getExpensesByDateRange(userId, startDate, endDate);
     }
 
     @Override
-    public Single<Double> getTotalExpensesBetween(long startDate, long endDate) {
-        return expenseDao.getTotalExpensesBetween(startDate, endDate);
+    public Single<Double> getTotalExpensesBetween(String userId, long startDate, long endDate) {
+        return expenseDao.getTotalExpensesBetween(userId, startDate, endDate);
     }
 
     @Override
-    public Single<Double> getTotalByCategory(long categoryId, long startDate, long endDate) {
-        return expenseDao.getTotalByCategory(categoryId, startDate, endDate);
+    public Single<Double> getTotalByCategory(String userId, long categoryId, long startDate, long endDate) {
+        return expenseDao.getTotalByCategory(userId, categoryId, startDate, endDate);
     }
 }

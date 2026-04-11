@@ -90,8 +90,12 @@ public class CategoryListActivity extends BaseActivity {
     // ─── ViewModel ───────────────────────────────────────────────────────────
 
     private void initViewModelConstructor() {
+        String uid = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null
+                ? com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : "";
         AppDatabase db = AppDatabase.getInstance(this);
         ExpenseFeatureRepository repository = new ExpenseFeatureRepository(
+                uid,
                 new ExpenseRepositoryImpl(db.expenseDao()),
                 new CategoryRepositoryImpl(db.categoryDao())
         );

@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/core/core-domain" />
             <option value="$PROJECT_DIR$/core/core-ui" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/feature-auth" />
             <option value="$PROJECT_DIR$/feature/feature-budget" />
             <option value="$PROJECT_DIR$/feature/feature-charts" />
             <option value="$PROJECT_DIR$/feature/feature-dashboard" />

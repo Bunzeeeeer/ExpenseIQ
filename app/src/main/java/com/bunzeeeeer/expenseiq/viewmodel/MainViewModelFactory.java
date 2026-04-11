@@ -16,14 +16,17 @@ import com.bunzeeeeer.expenseiq.core.domain.repository.ExpenseRepository;
  */
 public class MainViewModelFactory implements ViewModelProvider.Factory {
 
+    private final String userId;
     private final ExpenseRepository expenseRepository;
     private final BudgetRepository budgetRepository;
     private final CategoryRepository categoryRepository;
 
     public MainViewModelFactory(
+            String userId,
             ExpenseRepository expenseRepository,
             BudgetRepository budgetRepository,
             CategoryRepository categoryRepository) {
+        this.userId = userId;
         this.expenseRepository = expenseRepository;
         this.budgetRepository = budgetRepository;
         this.categoryRepository = categoryRepository;
@@ -35,6 +38,7 @@ public class MainViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(MainViewModel.class)) {
             return (T) new MainViewModel(
+                    userId,
                     expenseRepository,
                     budgetRepository,
                     categoryRepository);

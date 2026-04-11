@@ -22,15 +22,15 @@ public interface ExpenseRepository {
 
     Completable deleteExpense(Expense expense);
 
-    Flowable<List<Expense>> getAllExpenses();
+    Flowable<List<Expense>> getAllExpenses(String userId);
 
-    Single<Expense> getExpenseById(long id);
+    Single<Expense> getExpenseById(long id, String userId);
 
-    Flowable<List<Expense>> getExpensesByCategory(long categoryId);
+    Flowable<List<Expense>> getExpensesByCategory(long categoryId, String userId);
 
-    Flowable<List<Expense>> getExpensesByDateRange(long startDate, long endDate);
+    Flowable<List<Expense>> getExpensesByDateRange(String userId, long startDate, long endDate);
 
-    Single<Double> getTotalExpensesBetween(long startDate, long endDate);
+    Single<Double> getTotalExpensesBetween(String userId, long startDate, long endDate);
 
-    Single<Double> getTotalByCategory(long categoryId, long startDate, long endDate);
+    Single<Double> getTotalByCategory(String userId, long categoryId, long startDate, long endDate);
 }

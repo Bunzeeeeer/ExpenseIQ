@@ -54,6 +54,7 @@ public class AddEditExpenseActivity extends BaseActivity {
     private final Calendar selectedDate = Calendar.getInstance();
     private Expense expenseToEdit = null;
     private long expenseId = -1;
+    private String currentUserId = "";
 
     // ─── BaseActivity contract ────────────────────────────────────────────────
 
@@ -135,8 +136,12 @@ public class AddEditExpenseActivity extends BaseActivity {
     // ─── ViewModel ───────────────────────────────────────────────────────────
 
     private void initViewModelConstructor() {
+        currentUserId = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null
+                ? com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : "";
         AppDatabase db = AppDatabase.getInstance(this);
         ExpenseFeatureRepository repository = new ExpenseFeatureRepository(
+                currentUserId,
                 new ExpenseRepositoryImpl(db.expenseDao()),
                 new CategoryRepositoryImpl(db.categoryDao())
         );
@@ -268,19 +273,22 @@ public class AddEditExpenseActivity extends BaseActivity {
             categoryId = selectedCategory.getId();
         }
 
+        viewModel.saveExpense(buildExpense(title, amount, note, categoryId));
+    }
+
+    private Expense buildExpense(String title, double amount, String note, Long categoryId) {
         Expense expense = new Expense(
+                currentUserId,
                 title,
                 amount,
                 selectedDate.getTimeInMillis(),
                 note,
                 categoryId
         );
-
         if (expenseToEdit != null) {
             expense.setId(expenseToEdit.getId());
         }
-
-        viewModel.saveExpense(expense);
+        return expense;
     }
 
     private void showDeleteConfirmation() {

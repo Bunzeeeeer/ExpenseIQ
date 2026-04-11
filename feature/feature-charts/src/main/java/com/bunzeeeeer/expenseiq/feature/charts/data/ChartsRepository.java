@@ -19,16 +19,19 @@ public class ChartsRepository {
 
     private final ExpenseRepository expenseRepository;
     private final CategoryRepository categoryRepository;
+    private final String userId;
 
     public ChartsRepository(
+            String userId,
             ExpenseRepository expenseRepository,
             CategoryRepository categoryRepository) {
+        this.userId = userId;
         this.expenseRepository = expenseRepository;
         this.categoryRepository = categoryRepository;
     }
 
     public Flowable<List<Expense>> getAllExpenses() {
-        return expenseRepository.getAllExpenses();
+        return expenseRepository.getAllExpenses(userId);
     }
 
     public Flowable<List<Category>> getAllCategories() {
