@@ -26,10 +26,6 @@ public class LoginActivity extends BaseActivity {
 
     @SuppressWarnings("java:S1450")
     private LoginViewModel viewModel;
-    private TextInputLayout tilEmail;
-    private TextInputLayout tilPassword;
-    private TextInputEditText etEmail;
-    private TextInputEditText etPassword;
     private Button btnLogin;
     private ProgressBar progressBar;
     private TextView tvRegister;
@@ -41,10 +37,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initDesign() {
-        tilEmail = findViewById(R.id.tilEmail);
-        tilPassword = findViewById(R.id.tilPassword);
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         progressBar = findViewById(R.id.progressBar);
         tvRegister = findViewById(R.id.tvRegister);
@@ -60,8 +52,8 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initObservers() {
         viewModel.getLoading().observe(this, isLoading -> {
-            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-            btnLogin.setEnabled(!isLoading);
+            progressBar.setVisibility(Boolean.TRUE.equals(isLoading) ? View.VISIBLE : View.GONE);
+            btnLogin.setEnabled(!Boolean.TRUE.equals(isLoading));
         });
 
         viewModel.getLoginSuccess().observe(this, user -> {
@@ -70,34 +62,45 @@ public class LoginActivity extends BaseActivity {
             startActivity(intent);
         });
 
-        viewModel.getLoginError().observe(this, tilPassword::setError);
-
-        btnLogin.setOnClickListener(v -> {
-            tilEmail.setError(null);
-            tilPassword.setError(null);
-            String email = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
-            String password = etPassword.getText() != null ? etPassword.getText().toString().trim() : "";
-
-            if (email.isEmpty()) {
-                tilEmail.setError(getString(R.string.error_empty_email));
-                return;
-            }
-            if (password.isEmpty()) {
-                tilPassword.setError(getString(R.string.error_empty_password));
-                return;
-            }
-            viewModel.login(email, password);
+        viewModel.getLoginError().observe(this, error -> {
+            TextInputLayout tilPassword = findViewById(R.id.tilPassword);
+            tilPassword.setError(error);
         });
+
+        btnLogin.setOnClickListener(v -> handleLogin());
 
         tvRegister.setOnClickListener(v ->
                 startActivity(new Intent(this, RegisterActivity.class)));
+    }
+
+    private void handleLogin() {
+        TextInputLayout tilEmail = findViewById(R.id.tilEmail);
+        TextInputLayout tilPassword = findViewById(R.id.tilPassword);
+        TextInputEditText etEmail = findViewById(R.id.etEmail);
+        TextInputEditText etPassword = findViewById(R.id.etPassword);
+
+        tilEmail.setError(null);
+        tilPassword.setError(null);
+
+        String email = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
+        String password = etPassword.getText() != null ? etPassword.getText().toString().trim() : "";
+
+        if (email.isEmpty()) {
+            tilEmail.setError(getString(R.string.error_empty_email));
+            return;
+        }
+        if (password.isEmpty()) {
+            tilPassword.setError(getString(R.string.error_empty_password));
+            return;
+        }
+        viewModel.login(email, password);
     }
 
     private Class<?> getMainActivityClass() {
         try {
             return Class.forName("com.bunzeeeeer.expenseiq.MainActivity");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("MainActivity not found", e);
         }
     }
 }
