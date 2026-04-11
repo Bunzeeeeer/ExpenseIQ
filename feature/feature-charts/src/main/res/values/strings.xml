@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen title -->
+    <string name="charts_title">Analytics</string>
+
+    <!-- Summary card -->
+    <string name="charts_total_label">All time spending</string>
+    <string name="charts_amount_default">₱0.00</string>
+    <string name="charts_amount_format">₱%.2f</string>
+    <string name="charts_transactions_label">Transactions</string>
+    <string name="charts_default_count">0</string>
+
+    <!-- Section titles -->
+    <string name="charts_section_pie">Spending by category</string>
+    <string name="charts_section_line">Daily spending</string>
+    <string name="charts_section_bar">Monthly comparison</string>
+
+    <!-- Chart labels -->
+    <string name="charts_pie_center_text">Spending</string>
+    <string name="charts_line_label">Daily</string>
+    <string name="charts_bar_label">Monthly</string>
+
+    <!-- Date formats -->
+    <string name="charts_day_format">yyyy-MM-dd</string>
+    <string name="charts_day_display_format">MMM dd</string>
+    <string name="charts_month_format">yyyy-MM</string>
+    <string name="charts_month_display_format">MMM yy</string>
+
+    <!-- Fallbacks -->
+    <string name="charts_no_data">No data yet 🌸</string>
+    <string name="charts_unknown_category">Unknown</string>
+</resources>

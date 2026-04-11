@@ -19,6 +19,7 @@ android {
 
 dependencies {
     implementation project(':core:core-domain')
+    implementation project(':core:core-data')
     implementation project(':core:core-ui')
 
     // UI
@@ -36,6 +37,10 @@ dependencies {
 
     // Charts
     implementation libs.mpandroidchart
+
+    // Firebase
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.auth
 
     // Testing
     testImplementation libs.junit

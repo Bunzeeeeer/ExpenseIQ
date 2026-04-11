@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.bunzeeeeer.expenseiq.core.data.model.Category;
+import com.bunzeeeeer.expenseiq.core.domain.model.Category;
 
 import java.util.List;
 

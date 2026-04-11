@@ -19,7 +19,9 @@ android {
 
 dependencies {
     implementation project(':core:core-domain')
+    implementation project(':core:core-data')
     implementation project(':core:core-ui')
+    implementation project(':feature:feature-expense')
 
     // UI
     implementation libs.appcompat
@@ -33,6 +35,10 @@ dependencies {
     // RxJava
     implementation libs.rxjava2
     implementation libs.rxandroid
+
+    // Firebase
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.auth
 
     // Testing
     testImplementation libs.junit

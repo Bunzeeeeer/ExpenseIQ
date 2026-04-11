@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -29,11 +30,17 @@ android {
 }
 
 dependencies {
-    // All feature modules
+    // Core modules
+    implementation project(':core:core-domain')
+    implementation project(':core:core-data')
+    implementation project(':core:core-ui')
+
+    // Feature modules
     implementation project(':feature:feature-dashboard')
     implementation project(':feature:feature-expense')
     implementation project(':feature:feature-charts')
     implementation project(':feature:feature-budget')
+    implementation project(':feature:feature-auth')
 
     // UI
     implementation libs.appcompat
@@ -41,9 +48,24 @@ dependencies {
     implementation libs.activity
     implementation libs.constraintlayout
 
+    // Lifecycle
+    implementation libs.lifecycle.viewmodel
+    implementation libs.lifecycle.livedata
+
+    // RxJava
+    implementation libs.rxjava2
+    implementation libs.rxandroid
+
     // Navigation
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
+
+    // Firebase
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.auth
+
+    // MPAndroidChart
+    implementation libs.mpandroidchart
 
     // Testing
     testImplementation libs.junit

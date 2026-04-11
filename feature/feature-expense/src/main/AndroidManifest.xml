@@ -1,4 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <application
+        android:allowBackup="false"
+        android:usesCleartextTraffic="false">
+
+        <activity
+            android:name=".ui.ExpenseListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ExpenseIQ" />
+
+        <activity
+            android:name=".ui.AddEditExpenseActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ExpenseIQ"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.CategoryListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ExpenseIQ" />
+
+        <activity
+            android:name=".ui.AddEditCategoryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ExpenseIQ"
+            android:windowSoftInputMode="adjustResize" />
+
+    </application>
+
 </manifest>

@@ -1,3 +1,103 @@
 <resources>
     <string name="app_name">ExpenseIQ</string>
+
+    <!-- Greeting -->
+    <string name="home_greeting_morning">Good morning! 🌸</string>
+    <string name="home_greeting_afternoon">Good afternoon! ☀️</string>
+    <string name="home_greeting_evening">Good evening! 🌙</string>
+
+    <!-- Date formats -->
+    <string name="home_date_format">MMMM dd, yyyy</string>
+    <string name="home_month_format">MMM</string>
+    <string name="home_date_short_format">MMM dd</string>
+
+    <!-- Hero card -->
+    <string name="home_total_label">Total this month</string>
+    <string name="home_expenses_label">Expenses</string>
+    <string name="home_budget_left_label">Budget left</string>
+    <string name="home_this_month_label">This month</string>
+    <string name="home_amount_default">₱0.00</string>
+    <string name="home_month_default">Mar</string>
+    <string name="home_default_count">0</string>
+    <string name="home_amount_format">₱%.2f</string>
+    <string name="home_amount_negative_format">-₱%.2f</string>
+
+    <!-- Avatar -->
+    <string name="home_avatar_emoji">🌷</string>
+    <string name="home_logout_emoji">🚪</string>
+
+    <!-- Section titles -->
+    <string name="home_section_quick_access">Quick access</string>
+    <string name="home_section_recent">Recent expenses</string>
+
+    <!-- Quick access cards -->
+    <string name="home_quick_expenses_icon">📋</string>
+    <string name="home_quick_expenses_label">Expenses</string>
+    <string name="home_quick_charts_icon">📊</string>
+    <string name="home_quick_charts_label">Analytics</string>
+    <string name="home_quick_budget_icon">💰</string>
+    <string name="home_quick_budget_label">Budget</string>
+    <string name="home_quick_categories_icon">🏷️</string>
+    <string name="home_quick_categories_label">Categories</string>
+
+    <!-- Recent expense item -->
+    <string name="home_expense_icon">🧾</string>
+
+    <!-- Menu Strings -->
+    <string name="main_dashboard_nav">Main Dashboard</string>
+    <string name="expenses_dashboard_nav">Expenses</string>
+    <string name="charts_dashboard_nav">Charts</string>
+    <string name="budget_dashboard_nav">Budget</string>
+
+    <!-- Section titles -->
+    <string name="home_section_insight">Spending insight</string>
+    <string name="home_section_top_category">Top category this month</string>
+    <string name="home_section_budget_health">Budget health</string>
+    <string name="home_section_upcoming">Upcoming</string>
+    <string name="home_section_money_tip">Money tip 💡</string>
+
+    <!-- Spending insight -->
+    <string name="home_insight_no_data">No spending data yet. Start tracking! 🌸</string>
+    <string name="home_insight_first_month">First month tracking — keep it up! 🎉</string>
+    <string name="home_insight_more">📈 You spent %.1f%% more than last month.</string>
+    <string name="home_insight_less">📉 You spent %.1f%% less than last month. Great job!</string>
+    <string name="home_insight_same">Same spending as last month.</string>
+
+    <!-- Top category -->
+    <string name="home_top_category_none">No expenses this month yet 🌸</string>
+    <string name="home_top_category_unknown">Unknown</string>
+    <string name="home_top_category_format">%1$s  %2$s</string>
+
+    <!-- Budget health -->
+    <string name="home_budget_health_empty">No budgets set this month 💸</string>
+    <string name="home_budget_health_good">All budgets are healthy! 🌿</string>
+    <string name="home_budget_pct_format">%d%%</string>
+
+    <!-- Upcoming -->
+    <string name="home_days_left_format">📅 %d days left this month</string>
+    <string name="home_daily_budget_format">Suggested daily budget: ₱%.2f</string>
+    <string name="home_daily_budget_no_budget">Set a budget to see daily suggestions!</string>
+
+    <!-- New -->
+    <string name="home_section_health_score">💰 Financial Health</string>
+    <string name="home_section_streak">🔥 Logging Streak</string>
+    <string name="home_section_alerts">⚠️ Smart Alerts</string>
+    <string name="home_section_weekly">📊 This Week\'s Spending</string>
+    <string name="home_health_score_default">--</string>
+    <string name="home_health_score_label">/ 100</string>
+    <string name="home_health_score_na">N/A</string>
+    <string name="home_health_no_budget">Set budgets to get your score!</string>
+    <string name="home_health_great">Great! 🎉</string>
+    <string name="home_health_fair">Fair 😐</string>
+    <string name="home_health_poor">Poor 😬</string>
+    <string name="home_health_description">Based on your budget adherence</string>
+    <string name="home_streak_title">Day Streak</string>
+    <string name="home_streak_none">Start logging today! 💪</string>
+    <string name="home_streak_start">Great start! Keep going! 😄</string>
+    <string name="home_streak_good">You\'re on a roll! 🔥</string>
+    <string name="home_streak_fire">Unstoppable! 🚀🔥</string>
+    <string name="home_alert_no_budget">💡 Set budgets to get smart alerts!</string>
+    <string name="home_alert_all_good">✅ All budgets are healthy!</string>
+    <string name="home_alert_over_budget">🚨 %1$s %2$s budget exceeded!</string>
+    <string name="home_alert_near_budget">⚠️ %1$s %2$s is at %3$d%% of budget!</string>
 </resources>

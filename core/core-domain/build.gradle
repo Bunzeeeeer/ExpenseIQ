@@ -18,8 +18,9 @@ android {
 }
 
 dependencies {
-    // Depends on core-data
-    implementation project(':core:core-data')
+    // Room annotations for models only
+    implementation libs.room.runtime
+    annotationProcessor libs.room.compiler
 
     // RxJava
     implementation libs.rxjava2
